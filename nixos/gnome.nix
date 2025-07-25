@@ -84,6 +84,7 @@
       iagno
       simple-scan
       tali
+      xterm
       yelp
     ]
   );

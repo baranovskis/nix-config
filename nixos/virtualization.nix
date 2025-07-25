@@ -7,14 +7,45 @@
 }:
 let
   virtLib = inputs.nixvirt.lib;
+  vfioIds = [
+    "10de:11b4"  # NVIDIA GTX 980
+    "10de:0e0a"  # NVIDIA GTX 980 Audio
+  ];
 in
 {
   imports = [
     inputs.nixvirt.nixosModules.default
   ];
 
-  boot.kernelModules = [ "vfio-pci" ];
+  # VFIO Configuration
+  boot.kernelParams = [
+    # IOMMU settings based on CPU vendor
+    "iommu=pt"
+    "intel_iommu=on"
+    
+    # VFIO settings
+    "rd.driver.pre=vfio_pci"
+    "vfio_pci.disable_vga=1"
+    "vfio_pci.ids=${builtins.concatStringsSep "," vfioIds}"
+    
+    # KVM optimizations
+    "kvm.ignore_msrs=1"
+    "kvm.report_ignored_msrs=0"
+  ];
 
+  boot.kernelModules = [ 
+    # VFIO modules
+    "vfio_virqfd" 
+    "vfio_pci" 
+    "vfio_iommu_type1" 
+    "vfio"
+    # Looking Glass module
+    "kvmfr"
+  ];
+
+  boot.extraModprobeConfig = "options vfio-pci ids=${builtins.concatStringsSep "," vfioIds}";
+
+  # Libvirt Configuration
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
@@ -92,9 +123,19 @@ in
     virtiofsd
     win-spice
     win-virtio
+    looking-glass-client
   ];
 
   users.users.baranovskis = {
-    extraGroups = [ "libvirtd" ];
+    extraGroups = [ "libvirtd" "kvm" ];
   };
+
+  # Looking Glass configuration
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/looking-glass 0660 baranovskis kvm -"
+  ];
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="kvmfr", OWNER="baranovskis", GROUP="kvm", MODE="0660"
+  '';
 }

@@ -6,27 +6,43 @@
   ...
 }:
 {
-  imports = [
-    inputs.play.nixosModules.play
-  ];
-
-  play = {
-    amd.enable = true;
-    ananicy.enable = true;
-    gamemode.enable = true;
-
-    steam = {
-      enable = true;
-      extraCompatPackages = with pkgs; [
-        proton-ge-bin
-      ];
-    };
-
-    lutris.enable = true;
+  # Enable 32-bit support for gaming
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
   };
 
-  # Additional packages not covered by play.nix
+  # Enable Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
+  };
+
+  # Enable GameMode for performance optimization
+  programs.gamemode.enable = true;
+
+  # Gaming packages
   environment.systemPackages = with pkgs; [
+    # Game launchers
+    lutris
     heroic
+    
+    # Performance tools
+    gamemode
+    
+    # Wine for Windows games
+    wineWowPackages.staging
+    winetricks
+    
+    # Additional gaming utilities
+    mangohud
   ];
+
+  # Enable MangoHud globally
+  programs.mangohud.enable = true;
 }

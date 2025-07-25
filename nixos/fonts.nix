@@ -2,42 +2,29 @@
 {
   fonts = {
     packages = with pkgs; [
-      # icon fonts
-      material-symbols
-
-      # Sans(Serif) fonts
-      lexend
-      noto-fonts
-      noto-fonts-emoji
-      roboto
+      # Sans fonts
       (google-fonts.override {
         fonts = [
           "Inter"
-          "Laila"
         ];
       })
 
       # monospace fonts
-      monocraft
-      #monocraft-nerd-fonts
-
-      # nerdfonts
-      nerd-fonts.fira-code
-      nerd-fonts.symbols-only
+      jetbrains-mono
+      nerd-fonts.jetbrains-mono
     ];
 
     # causes more issues than it solves
     enableDefaultPackages = false;
 
     # user defined fonts
-    #fontconfig = {
-    #  enable = true;
-    #  defaultFonts = {
-    #    serif = [ "Laila" ];
-    #    sansSerif = [ "Lexend" ];
-    #    monospace = [ "Monocraft" ];
-    #    emoji = [ "Noto Color Emoji" ];
-    #  };
-    #};
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = [ "Inter" ];
+        sansSerif = [ "Inter" ];
+        monospace = [ "JetBrains Mono" ];
+      };
+    };
   };
 }

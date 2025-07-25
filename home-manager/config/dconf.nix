@@ -1,3 +1,4 @@
+# Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
 { lib, ... }:
 
 with lib.hm.gvariant;
@@ -29,12 +30,12 @@ with lib.hm.gvariant;
       experimental-features = lib.mkDefault [ "scale-monitor-framebuffer" ];
     };
 
-    "org/gnome/settings-daemon/plugins/color" = lib.mkDefault {
-      night-light-enabled = true;
-      night-light-schedule-automatic = false;
-      night-light-schedule-from = 19.0;
-      night-light-temperature = (mkUint32 3892);
-    };
+    #"org/gnome/settings-daemon/plugins/color" = lib.mkDefault {
+    #  night-light-enabled = true;
+    #  night-light-schedule-automatic = false;
+    #  night-light-schedule-from = 19.0;
+    #  night-light-temperature = (mkUint32 3892);
+    #};
 
     "org/gnome/shell" = {
       disable-user-extensions = lib.mkForce false;
@@ -50,6 +51,7 @@ with lib.hm.gvariant;
         "undecorate@sun.wxg@gmail.com"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
         "Vitals@CoreCoding.com"
+        "caffeine@patapon.info"
       ];
       last-selected-power-profile = lib.mkDefault "performance";
     };
@@ -57,7 +59,6 @@ with lib.hm.gvariant;
     "org/gnome/shell/extensions/alphabetical-app-grid" = lib.mkDefault {
       folder-order-position = "start";
     };
-
 
     "org/gnome/shell/extensions/appindicator" = lib.mkDefault {
       icon-brightness = 0.0;
@@ -92,6 +93,7 @@ with lib.hm.gvariant;
         "Conky"
         ".gamescope-wrapped"
         "steam_app_*"
+        ".virt-manager-wrapped"
       ];
       blur = true;
       dynamic-opacity = false;
@@ -170,7 +172,7 @@ with lib.hm.gvariant;
       accessibility-menu = true;
       activities-button = false;
       clock-menu = true;
-      clock-menu-position = 1;
+      clock-menu-position = 2;
       dash = true;
       dash-app-running = true;
       dash-separator = false;
@@ -203,7 +205,7 @@ with lib.hm.gvariant;
       include-static-gpu-info = true;
       include-static-info = true;
       menu-centered = false;
-      position-in-panel = 0;
+      position-in-panel = 2;
       show-fan = false;
       show-gpu = true;
       show-memory = true;
@@ -214,6 +216,10 @@ with lib.hm.gvariant;
       show-temperature = true;
       show-voltage = false;
       use-higher-precision = false;
+    };
+
+    "org/gnome/shell/keybindings" = lib.mkDefault {
+      toggle-overview = [ "<Super>" ];
     };
 
     "org/virt-manager/virt-manager/connections" = lib.mkDefault {

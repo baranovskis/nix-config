@@ -20,15 +20,11 @@
       timeout = 3;
     };
 
-    # Use the cachyos kernel for better performance
-    #kernelPackages = pkgs.linuxPackages_cachyos;
-
     initrd = {
       systemd.enable = true;
       verbose = false;
       availableKernelModules = [
-        "vmd"
-        #"nvme"
+        "nvme"
         "xhci_pci"
         "ahci"
         "usb_storage"
@@ -58,6 +54,11 @@
       "fmask=0077"
       "dmask=0077"
     ];
+  };
+
+  fileSystems."/mnt/ssd" = {
+    device = "/dev/disk/by-uuid/7943a758-a4d2-4e8b-9385-ade2f92e5f87";
+    fsType = "ext4";
   };
 
   swapDevices = [

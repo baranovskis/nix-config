@@ -16,14 +16,13 @@
     ./gnome.nix
     ./gnupg.nix
     ./hardware.nix
-    ./keyboard.nix
-    ./libvirt.nix
+    ./nuphy.nix
     ./networking.nix
     ./nvidia.nix
     ./solaar.nix
     ./ssh.nix
     ./user.nix
-    ./vfio.nix
+    ./virtualization.nix
   ];
 
   # Overlays
@@ -69,13 +68,6 @@
     LC_TELEPHONE = "de_DE.UTF-8";
     LC_TIME = "de_DE.UTF-8";
   };
-
-  # Primary shell enablement
-  programs.fish.enable = true;
-  environment.shells = with pkgs; [
-    bash
-    fish
-  ];
 
   # SUDO and Terminal
   #environment.enableAllTerminfo = true;

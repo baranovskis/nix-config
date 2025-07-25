@@ -30,34 +30,29 @@
   stylix = {
     enable = true;
     autoEnable = true;
-    base16Scheme = ./stylix.yaml;
-    image = ./wallpapers/gojo.jpg;
+    base16Scheme = ./wallhaven-lym7pl.yaml;
+    image = ./wallpapers/wallhaven-lym7pl.jpg;
     polarity = "dark";
     fonts = {
-    #  serif = {
-    #    package = pkgs.google-fonts.override { fonts = [ "Laila" ]; };
-    #    name = "Laila";
-    #  };
+      serif = {
+        package = pkgs.google-fonts.override { fonts = [ "Inter" ]; };
+        name = "Inter";
+      };
 
-    #  sansSerif = {
-    #    package = pkgs.lexend;
-    #    name = "Lexend";
-    #  };
+      sansSerif = {
+        package = pkgs.google-fonts.override { fonts = [ "Inter" ]; };
+        name = "Inter";
+      };
 
-    #  monospace = {
-    #    package = pkgs.monocraft-nerd-fonts;
-    #    name = "Monocraft";
-    #  };
-
-    #  emoji = {
-    #    package = pkgs.noto-fonts-emoji;
-    #    name = "Noto Color Emoji";
-    #  };
+      monospace = {
+        package = pkgs.jetbrains-mono;
+        name = "JetBrains Mono";
+      };
       sizes = {
         applications = 12;
-        desktop = 11;
-        popups = 11;
-        terminal = 12;
+        desktop = 12;
+        popups = 12;
+        terminal = 14;
       };
     };
     targets = {
@@ -67,7 +62,7 @@
       };
       vscode = {
         enable = false;
-        # profileNames = [ "Stylix" ];
+        #profileNames = [ "Stylix" ];
       };
     };
   };
@@ -106,6 +101,8 @@
     #citron-emu
     #modrinth-app
   ];
+
+  programs.home-manager.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

@@ -4,14 +4,14 @@ name: Stylix
 author: baranovskis
 variant: dark
 palette:
-  base00: "231F33"
-  base01: "2D293B"
-  base02: "363343"
-  base03: "494653"
-  base04: "FBD5AC"
-  base05: "FBD9BB"
-  base06: "FBDDC9"
-  base07: "FAE5E6"
+  base00: "023E8A"
+  base01: "0077B6"
+  base02: "0096C7"
+  base03: "00B4D8"
+  base04: "48CAE4"
+  base05: "90E0EF"
+  base06: "ADE8F4"
+  base07: "CAF0F8"
   base08: "EC2444" # Red
   base09: "D97912" # Orange
   base0A: "EDD224" # Yellow
@@ -25,3 +25,4 @@ palette:
 # https://coolors.co/ec2444-d97912-edd224-57c922-4948eb-2d1c75-81318b-ff7a81
 
 #  flavours generate dark ./wallpapers/gojo.jpg --stdout > gojo.yaml
+
