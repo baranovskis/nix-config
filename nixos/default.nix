@@ -13,6 +13,7 @@
     ./audio.nix
     ./bluetooth.nix
     ./fonts.nix
+    ./gaming.nix
     ./gnome.nix
     ./gnupg.nix
     ./hardware.nix

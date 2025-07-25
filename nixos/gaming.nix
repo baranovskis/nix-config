@@ -6,13 +6,6 @@
   ...
 }:
 {
-  # Enable 32-bit support for gaming
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
   # Enable Steam
   programs.steam = {
     enable = true;
@@ -38,11 +31,5 @@
     # Wine for Windows games
     wineWowPackages.staging
     winetricks
-    
-    # Additional gaming utilities
-    mangohud
   ];
-
-  # Enable MangoHud globally
-  programs.mangohud.enable = true;
 }
