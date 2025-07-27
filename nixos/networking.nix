@@ -16,7 +16,6 @@
     useDHCP = lib.mkDefault true;
     useHostResolvConf = false;
     usePredictableInterfaceNames = true;
-    enableIPv6 = false;
   };
 
   users.users.${username} = {

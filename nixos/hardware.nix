@@ -10,6 +10,10 @@
 
   ## Boot ##
   boot = {
+    kernelParams = [
+      "acpi_rev_override=1"
+      "nvidia-drm.modeset=1"
+    ];
     loader = {
       systemd-boot = {
         enable = true;

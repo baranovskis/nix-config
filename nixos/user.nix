@@ -10,6 +10,7 @@ let
 in
 {
   users.users.${username} = {
+    description = "Andrejs Baranovskis";
     shell = pkgs.zsh;
     isNormalUser = true;
     initialPassword = "P@ssw0rd";

@@ -1,39 +1,22 @@
-# 🐧 Baranovskis NixOS Configuration
-
-<div align="center">
-
-![NixOS](https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white)
-![Flakes](https://img.shields.io/badge/Nix_Flakes-Enabled-blue?style=for-the-badge)
-![Home Manager](https://img.shields.io/badge/Home_Manager-Configured-orange?style=for-the-badge)
-
-*A modern, modular NixOS configuration with GNOME, gaming optimizations, and comprehensive theming*
+# My NixOS Configuration
 
 ![Desktop Screenshot](assets/screenshot.png)
 
-</div>
+## What This Is
 
-## ✨ Features
+This is my personal NixOS setup using flakes and home-manager. It's configured for GNOME with gaming support, nice theming via Stylix, and includes the tools I actually use day-to-day.
 
-### 🎮 Gaming Ready
-- **NVIDIA Graphics**: Optimized drivers and settings
-- **Gaming Suite**: Steam, Lutris, and gaming-specific optimizations
-- **Performance**: Audio latency optimization and system tuning
+Feel free to steal anything useful from it!
 
-### 🎨 Beautiful Theming
-- **Stylix Integration**: System-wide consistent theming
-- **GNOME Desktop**: Fully configured with custom wallpapers
-- **Modern UI**: Cohesive color schemes across all applications
+## 💻 My Setup
 
-### 🛠️ Development Environment
-- **Multiple Channels**: Unstable for cutting-edge, stable for reliability
-- **Virtualization**: Docker and libvirt/QEMU support
-- **Custom Packages**: Including Citron emulator and Zen browser
-
-### 🔧 Hardware Support
-- **Audio**: PipeWire with professional audio tools
-- **Bluetooth**: Full wireless device support
-- **Peripherals**: Logitech device management with Solaar
-- **Keyboards**: NuPhy keyboard optimization
+| Component | Specs |
+|-----------|-------|
+| **CPU** | Intel i5-13600KF (13th gen) |
+| **RAM** | 64GB |
+| **GPU** | NVIDIA GeForce RTX 4060 (gaming/main) |
+| **GPU** | AMD Radeon Pro WX 5100 (VM passthrough for work) |
+| **Storage** | 465GB NVMe SSD (main) + 465GB SSD (extra) |
 
 ## 📁 Project Structure
 

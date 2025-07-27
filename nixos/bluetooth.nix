@@ -17,7 +17,6 @@
       };
 
       General = {
-        Enable = "Source,Sink,Media,Socket";
         FastConnectable = true;
         JustWorksRepairing = "always";
         # Battery info for Bluetooth devices
@@ -29,6 +28,7 @@
   boot = {
     extraModprobeConfig = ''
       options bluetooth enable_ecred=1
+      options bluetooth enable_iso=1
     '';
   };
 }
