@@ -1,18 +1,18 @@
-# User config applicable only to nixos
 {
-  inputs,
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
-  users.users.baranovskis = {
+  users.users.${username} = {
+    shell = pkgs.zsh;
     isNormalUser = true;
-    description = "Andrejs Baranovskis";
+    initialPassword = "P@ssw0rd";
     extraGroups = lib.flatten [
       "wheel"
       (ifTheyExist [
@@ -22,8 +22,6 @@ in
         "gamemode"
         "git"
         "libvirtd"
-        "networkmanager"
-        "video"
       ])
     ];
   };

@@ -49,11 +49,15 @@
     usbutils
   ];
 
+  # Shell configuration
+  programs.zsh.enable = true;
+  
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
+
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";

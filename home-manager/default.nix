@@ -6,6 +6,7 @@
   lib,
   config,
   pkgs,
+  username,
   ...
 }: 
 {
@@ -30,7 +31,7 @@
   stylix = {
     enable = true;
     autoEnable = true;
-    base16Scheme = ./wallhaven-lym7pl.yaml;
+    #base16Scheme = ./wallhaven-lym7pl.yaml;
     image = ./wallpapers/wallhaven-lym7pl.jpg;
     polarity = "dark";
     fonts = {
@@ -48,6 +49,12 @@
         package = pkgs.jetbrains-mono;
         name = "JetBrains Mono";
       };
+
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+
       sizes = {
         applications = 12;
         desktop = 12;
@@ -68,8 +75,8 @@
   };
 
   home = {
-    username = "baranovskis";
-    homeDirectory = "/home/baranovskis";
+    username = "${username}";
+    homeDirectory = "/home/${username}";
     file = {
       "Pictures/Wallpapers" = {
         source = ./wallpapers;
@@ -100,6 +107,9 @@
     # Gaming
     #citron-emu
     #modrinth-app
+
+    # Fonts for Looking Glass
+    dejavu_fonts
   ];
 
   programs.home-manager.enable = true;

@@ -32,9 +32,10 @@
     xserver = {
       enable = true;
       xkb = {
-        layout = "us,ru";
+        layout = "us";
         variant = "";
       };
+      excludePackages = [ pkgs.xterm ];
     };
 
     udev.packages = with pkgs; [ gnome-settings-daemon ];
@@ -55,37 +56,19 @@
   ];
 
   ## Exclusions ##
-  environment.gnome.excludePackages = (
-    with pkgs;
-    [
-      atomix
-      baobab
-      # epiphany
-      # evince
-      geary
-      gedit
-      #gnome-console
-      gnome-contacts
-      gnome-maps
+  environment.gnome.excludePackages =
+    (with pkgs; [
       gnome-music
       gnome-photos
-      gnome-terminal
       gnome-tour
-      gnome-user-docs
-      gnomeExtensions.applications-menu
-      gnomeExtensions.launch-new-instance
-      gnomeExtensions.light-style
-      gnomeExtensions.places-status-indicator
-      gnomeExtensions.status-icons
-      gnomeExtensions.system-monitor
-      gnomeExtensions.window-list
-      gnomeExtensions.windownavigator
-      hitori
-      iagno
-      simple-scan
+      gedit
+      epiphany
+      geary
+      gnome-characters
+      totem
       tali
-      xterm
-      yelp
-    ]
-  );
+      iagno
+      hitori
+      atomix
+    ]);
 }

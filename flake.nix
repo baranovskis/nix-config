@@ -7,6 +7,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -19,16 +20,9 @@
     };
 
     # Theming
-    rose-pine-hyprcursor = {
-      url = "github:ndom91/rose-pine-hyprcursor";
-    };
-
-    stylix.url = "github:danth/stylix";
-
-    # Gaming
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Misc Packages
@@ -49,6 +43,7 @@
     home-manager,
     ...
   } @ inputs: let
+    username = "baranovskis"; # Username for configurations
     inherit (self) outputs;
   in {
     # Your custom packages and modifications, exported as overlays
@@ -58,7 +53,7 @@
     # sudo nixos-rebuild switch --flake .
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       specialArgs = {
-        inherit inputs outputs;
+        inherit inputs outputs username;
       };
       modules = [ ./nixos ];
     };
@@ -68,7 +63,7 @@
     homeConfigurations.baranovskis = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
       extraSpecialArgs = {
-        inherit inputs outputs;
+        inherit inputs outputs username;
       };
       modules = [ ./home-manager ];
     };

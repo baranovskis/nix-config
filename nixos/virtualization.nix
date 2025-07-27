@@ -3,13 +3,14 @@
   lib,
   pkgs,
   config,
+  username,
   ...
 }:
 let
   virtLib = inputs.nixvirt.lib;
   vfioIds = [
-    "10de:11b4"  # NVIDIA GTX 980
-    "10de:0e0a"  # NVIDIA GTX 980 Audio
+    "1002:67c7"  # AMD Radeon Pro WX 5100
+    "1002:aaf0"  # AMD Radeon Pro WX 5100 Audio
   ];
 in
 {
@@ -17,33 +18,41 @@ in
     inputs.nixvirt.nixosModules.default
   ];
 
-  # VFIO Configuration
-  boot.kernelParams = [
-    # IOMMU settings based on CPU vendor
-    "iommu=pt"
-    "intel_iommu=on"
-    
-    # VFIO settings
-    "rd.driver.pre=vfio_pci"
-    "vfio_pci.disable_vga=1"
-    "vfio_pci.ids=${builtins.concatStringsSep "," vfioIds}"
-    
-    # KVM optimizations
-    "kvm.ignore_msrs=1"
-    "kvm.report_ignored_msrs=0"
-  ];
+  boot = {
+    kernelPackages = pkgs.linuxPackages_zen;
+    extraModulePackages = [ pkgs.linuxPackages_zen.kvmfr ];
 
-  boot.kernelModules = [ 
-    # VFIO modules
-    "vfio_virqfd" 
-    "vfio_pci" 
-    "vfio_iommu_type1" 
-    "vfio"
-    # Looking Glass module
-    "kvmfr"
-  ];
+    initrd.kernelModules = [
+      # VFIO modules
+      "vfio_pci"
+      "vfio"
+      "vfio_iommu_type1"
+      #"vfio_virqfd"
 
-  boot.extraModprobeConfig = "options vfio-pci ids=${builtins.concatStringsSep "," vfioIds}";
+      # Looking Glass module
+      "kvmfr"
+    ];
+
+    kernelParams = [
+      # IOMMU settings based on CPU vendor
+      "intel_iommu=on"
+      "iommu=pt"
+      
+      # VFIO settings
+      "rd.driver.pre=vfio_pci"
+      "vfio_pci.disable_vga=1"
+      "vfio_pci.ids=${builtins.concatStringsSep "," vfioIds}"
+      
+      # KVM optimizations
+      "kvm.ignore_msrs=1"
+      "kvm.report_ignored_msrs=0"
+
+      # Looking Glass settings
+      "kvmfr.static_size_mb=128"
+    ];
+
+    extraModprobeConfig = "options vfio-pci ids=${builtins.concatStringsSep "," vfioIds}";
+  };
 
   # Libvirt Configuration
   virtualisation.libvirtd = {
@@ -113,29 +122,31 @@ in
 
   programs.virt-manager.enable = true;
 
-  environment.systemPackages = with pkgs.stable; [
-    OVMFFull
-    qemu
-    qemu_kvm
-    spice
-    spice-gtk
-    spice-protocol
-    virtiofsd
-    win-spice
-    win-virtio
+  environment.systemPackages = with pkgs; [
+    stable.OVMFFull
+    stable.qemu
+    stable.qemu_kvm
+    stable.spice
+    stable.spice-gtk
+    stable.spice-protocol
+    stable.virtiofsd
+    stable.win-spice
+    stable.win-virtio
     looking-glass-client
+    virt-viewer
+    OVMF
   ];
 
-  users.users.baranovskis = {
+  users.users.${username} = {
     extraGroups = [ "libvirtd" "kvm" ];
   };
 
   # Looking Glass configuration
   systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 baranovskis kvm -"
+    "f /dev/shm/looking-glass 0660 ${username} kvm -"
   ];
 
   services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="baranovskis", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="kvmfr", OWNER="${username}", GROUP="kvm", MODE="0660"
   '';
 }

@@ -1,14 +1,6 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, username, ... }:
 {
-  imports = [
-    inputs.nix-gaming.nixosModules.pipewireLowLatency
-  ];
-
-  services.pulseaudio = {
-    enable = false;
-    package = pkgs.pulseaudioFull;
-  };
-
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   services.pipewire = {
@@ -18,6 +10,9 @@
     pulse.enable = true;
     wireplumber.enable = true;
     jack.enable = true;
-    lowLatency.enable = true;
+  };
+
+  users.users.${username} = {
+    extraGroups = [ "audio" ];
   };
 }

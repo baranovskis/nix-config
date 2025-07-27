@@ -1,6 +1,10 @@
-{ pkgs, config, ... }:
+{ 
+  pkgs, 
+  config,
+  username,
+  ... }:
 {
   # Android Debug Bridge
   programs.adb.enable = true;
-  users.users.baranovskis.extraGroups = [ "adbusers" ];
+  users.users.${username}.extraGroups = [ "adbusers" ];
 }
