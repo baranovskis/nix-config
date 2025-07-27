@@ -8,6 +8,8 @@
 
 *A modern, modular NixOS configuration with GNOME, gaming optimizations, and comprehensive theming*
 
+![Desktop Screenshot](assets/screenshot.png)
+
 </div>
 
 ## ✨ Features
