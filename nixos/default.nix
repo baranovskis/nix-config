@@ -12,6 +12,7 @@
   imports = [
     ./audio.nix
     ./bluetooth.nix
+    ./docker.nix
     ./fonts.nix
     ./gaming.nix
     ./gnome.nix
