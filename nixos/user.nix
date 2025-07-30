@@ -1,29 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  username,
-  ...
-}:
-let
-  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
+{ pkgs, username, ... }:
 {
   users.users.${username} = {
     description = "Andrejs Baranovskis";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     isNormalUser = true;
     initialPassword = "P@ssw0rd";
-    extraGroups = lib.flatten [
-      "wheel"
-      (ifTheyExist [
-        "adbusers"
-        "audio"
-        "docker"
-        "gamemode"
-        "git"
-        "libvirtd"
-      ])
-    ];
+    extraGroups = [ "wheel" ];
   };
 }

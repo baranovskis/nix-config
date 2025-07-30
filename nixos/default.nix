@@ -51,7 +51,7 @@
   ];
 
   # Shell configuration
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
   
   # Enable CUPS to print documents.
   services.printing.enable = true;

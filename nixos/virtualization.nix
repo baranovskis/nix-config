@@ -27,7 +27,6 @@ in
       "vfio_pci"
       "vfio"
       "vfio_iommu_type1"
-      #"vfio_virqfd"
 
       # Looking Glass module
       "kvmfr"
@@ -59,8 +58,19 @@ in
     enable = true;
     qemu = {
       package = pkgs.stable.qemu_kvm;
-      runAsRoot = true;
+      runAsRoot = false;
       swtpm.enable = true;
+      verbatimConfig = ''
+        namespaces = []
+        user = "${username}"
+        group = "kvm"
+        cgroup_device_acl = [
+          "/dev/null", "/dev/full", "/dev/zero",
+          "/dev/random", "/dev/urandom",
+          "/dev/ptmx", "/dev/kvm",
+          "/dev/kvmfr0"
+        ]
+      '';
       ovmf = {
         enable = true;
         packages = with pkgs.stable; [
@@ -143,12 +153,7 @@ in
     extraGroups = [ "libvirtd" "kvm" ];
   };
 
-  # Looking Glass configuration
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 ${username} kvm -"
-  ];
-
   services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="${username}", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="kvmfr", OWNER="${username}", GROUP="kvm", MODE="0666"
   '';
 }

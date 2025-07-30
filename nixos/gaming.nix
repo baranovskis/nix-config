@@ -1,10 +1,4 @@
-{
-  pkgs,
-  lib,
-  config,
-  inputs,
-  ...
-}:
+{ pkgs, username, ... }:
 {
   # Enable Steam
   programs.steam = {
@@ -16,14 +10,12 @@
     ];
   };
 
-  # Enable GameMode for performance optimization
-  programs.gamemode.enable = true;
-
   # Gaming packages
   environment.systemPackages = with pkgs; [
     # Game launchers
     lutris
     heroic
+    bottles
     
     # Performance tools
     gamemode
@@ -32,4 +24,11 @@
     wineWowPackages.staging
     winetricks
   ];
+
+  # Enable GameMode for performance optimization
+  programs.gamemode.enable = true;
+
+  users.users.${username} = {
+    extraGroups = [ "gamemode" ];
+  };
 }

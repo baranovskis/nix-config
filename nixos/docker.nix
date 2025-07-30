@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 let
   update-containers = pkgs.writeShellScriptBin "update-containers" ''
     SUDO=""
@@ -34,4 +34,8 @@ in
     lazydocker # Simple TUI
     update-containers
   ];
+
+  users.users.${username} = {
+    extraGroups = [ "docker" ];
+  };
 }

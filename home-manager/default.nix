@@ -31,7 +31,6 @@
   stylix = {
     enable = true;
     autoEnable = true;
-    #base16Scheme = ./wallhaven-lym7pl.yaml;
     image = ./wallpapers/wallhaven-lym7pl.jpg;
     polarity = "dark";
     fonts = {
@@ -94,6 +93,7 @@
     bitwarden-desktop
     firefox
     pika-backup
+    dconf2nix
 
     # Productivity
     gimp
