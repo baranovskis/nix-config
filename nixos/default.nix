@@ -15,9 +15,11 @@
     ./docker.nix
     ./fonts.nix
     ./gaming.nix
+    ./gc.nix
     ./gnome.nix
     ./gnupg.nix
     ./hardware.nix
+    ./nfs.nix
     ./nuphy.nix
     ./networking.nix
     ./nvidia.nix
