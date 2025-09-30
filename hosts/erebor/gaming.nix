@@ -1,6 +1,9 @@
 { pkgs, username, ... }:
 {
-  # Enable Steam
+  # Gaming configuration for erebor
+  # System services and user applications combined
+
+  # System-level gaming services
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -10,23 +13,25 @@
     ];
   };
 
-  # Gaming packages
+  programs.gamemode.enable = true;
+
+  # System-level gaming packages
   environment.systemPackages = with pkgs; [
+    # Performance tools
+    gamemode
+
+    # Wine for Windows games
+    wineWowPackages.staging
+    winetricks
+
     # Game launchers
     lutris
     heroic
     bottles
-    
-    # Performance tools
-    gamemode
-    
-    # Wine for Windows games
-    wineWowPackages.staging
-    winetricks
-  ];
 
-  # Enable GameMode for performance optimization
-  programs.gamemode.enable = true;
+    # VFIO & GPU Passthrough
+    looking-glass-client
+  ];
 
   users.users.${username} = {
     extraGroups = [ "gamemode" ];

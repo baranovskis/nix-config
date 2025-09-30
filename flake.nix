@@ -50,18 +50,48 @@
     overlays = import ./overlays {inherit inputs;};
 
     # NixOS configuration entrypoint
-    # sudo nixos-rebuild switch --flake .
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs outputs username;
+    # Per-host configurations
+    nixosConfigurations = {
+      # Erebor (Desktop) configuration
+      # sudo nixos-rebuild switch --flake .#erebor
+      erebor = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs username;
+        };
+        modules = [
+          ./common
+          ./hosts/erebor
+        ];
       };
-      modules = [ ./nixos ];
+
+      # Alias configurations for convenience
+      desktop = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs username;
+        };
+        modules = [
+          ./common
+          ./hosts/erebor
+        ];
+      };
+
+      # Default configuration (points to erebor for backward compatibility)
+      # sudo nixos-rebuild switch --flake .
+      nixos = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs username;
+        };
+        modules = [
+          ./common
+          ./hosts/erebor
+        ];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
-    # sudo home-manager switch --flake .
+    # home-manager switch --flake .
     homeConfigurations.baranovskis = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = {
         inherit inputs outputs username;
       };

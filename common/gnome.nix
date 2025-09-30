@@ -15,6 +15,9 @@
       '';
     };
 
+    # Enable RDP access for remote desktop
+    gnome.gnome-remote-desktop.enable = true;
+
     # hosts/global/core/ssh.nix handles this
     gnome.gcr-ssh-agent.enable = false;
 

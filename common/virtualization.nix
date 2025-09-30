@@ -8,50 +8,11 @@
 }:
 let
   virtLib = inputs.nixvirt.lib;
-  vfioIds = [
-    "1002:67c7"  # AMD Radeon Pro WX 5100
-    "1002:aaf0"  # AMD Radeon Pro WX 5100 Audio
-  ];
 in
 {
   imports = [
     inputs.nixvirt.nixosModules.default
   ];
-
-  boot = {
-    kernelPackages = pkgs.linuxPackages_zen;
-    extraModulePackages = [ pkgs.linuxPackages_zen.kvmfr ];
-
-    initrd.kernelModules = [
-      # VFIO modules
-      "vfio_pci"
-      "vfio"
-      "vfio_iommu_type1"
-
-      # Looking Glass module
-      "kvmfr"
-    ];
-
-    kernelParams = [
-      # IOMMU settings based on CPU vendor
-      "intel_iommu=on"
-      "iommu=pt"
-      
-      # VFIO settings
-      "rd.driver.pre=vfio_pci"
-      "vfio_pci.disable_vga=1"
-      "vfio_pci.ids=${builtins.concatStringsSep "," vfioIds}"
-      
-      # KVM optimizations
-      "kvm.ignore_msrs=1"
-      "kvm.report_ignored_msrs=0"
-
-      # Looking Glass settings
-      "kvmfr.static_size_mb=128"
-    ];
-
-    extraModprobeConfig = "options vfio-pci ids=${builtins.concatStringsSep "," vfioIds}";
-  };
 
   # Libvirt Configuration
   virtualisation.libvirtd = {
@@ -64,12 +25,6 @@ in
         namespaces = []
         user = "${username}"
         group = "kvm"
-        cgroup_device_acl = [
-          "/dev/null", "/dev/full", "/dev/zero",
-          "/dev/random", "/dev/urandom",
-          "/dev/ptmx", "/dev/kvm",
-          "/dev/kvmfr0"
-        ]
       '';
       ovmf = {
         enable = true;
@@ -144,7 +99,6 @@ in
     stable.virtiofsd
     stable.win-spice
     stable.win-virtio
-    looking-glass-client
     virt-viewer
     OVMF
   ];
@@ -152,8 +106,4 @@ in
   users.users.${username} = {
     extraGroups = [ "libvirtd" "kvm" ];
   };
-
-  services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="${username}", GROUP="kvm", MODE="0666"
-  '';
 }

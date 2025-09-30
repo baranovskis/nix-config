@@ -3,19 +3,16 @@
 {
   inputs,
   outputs,
-  lib,
-  config,
-  pkgs,
   username,
   ...
-}: 
-{
-  # You can import other home-manager modules here
+}: {
+  # Import modular configurations
   imports = [
     inputs.stylix.homeModules.stylix
 
     ./config
-    ./zen.nix
+    ./programs
+    ./themes/stylix.nix
   ];
 
   nixpkgs = {
@@ -25,51 +22,6 @@
     config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
-    };
-  };
-
-  stylix = {
-    enable = true;
-    autoEnable = true;
-    image = ./wallpapers/wallhaven-lym7pl.jpg;
-    polarity = "dark";
-    fonts = {
-      serif = {
-        package = pkgs.google-fonts.override { fonts = [ "Inter" ]; };
-        name = "Inter";
-      };
-
-      sansSerif = {
-        package = pkgs.google-fonts.override { fonts = [ "Inter" ]; };
-        name = "Inter";
-      };
-
-      monospace = {
-        package = pkgs.jetbrains-mono;
-        name = "JetBrains Mono";
-      };
-
-      emoji = {
-        package = pkgs.noto-fonts-emoji;
-        name = "Noto Color Emoji";
-      };
-
-      sizes = {
-        applications = 12;
-        desktop = 12;
-        popups = 12;
-        terminal = 14;
-      };
-    };
-    targets = {
-      gnome = {
-        enable = true;
-        useWallpaper = true;
-      };
-      vscode = {
-        enable = false;
-        #profileNames = [ "Stylix" ];
-      };
     };
   };
 
@@ -83,34 +35,6 @@
       };
     };
   };
-
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  home.packages = with pkgs; [ 
-    ffmpeg
-    spotify
-    telegram-desktop
-    bitwarden-desktop
-    firefox
-    pika-backup
-    dconf2nix
-
-    # Productivity
-    gimp
-    inkscape
-    eloquent
-
-    # Coding
-    vscode
-    claude-code
-
-    # Gaming
-    #citron-emu
-    #modrinth-app
-
-    # Fonts for Looking Glass
-    dejavu_fonts
-  ];
 
   programs.home-manager.enable = true;
 

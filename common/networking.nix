@@ -7,7 +7,7 @@
 }:
 {
   networking = {
-    hostName = "nixos";
+    # hostname is defined per-host in hosts/*/default.nix
     networkmanager = {
       enable = true;
       wifi.powersave = true;
