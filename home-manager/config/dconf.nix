@@ -226,5 +226,18 @@ with lib.hm.gvariant;
       autoconnect = [ "qemu:///system" ];
       uris = [ "qemu:///system" ];
     };
+
+    "org/gtk/gtk4/settings/file-chooser" = lib.mkDefault {
+      show-hidden = false;
+    };
+
+    "org/gtk/settings/file-chooser" = lib.mkDefault {
+      show-hidden = false;
+    };
   };
+
+  # Add ZFS pool to GNOME Files sidebar
+  gtk.gtk3.bookmarks = [
+    "file:///tank Tank"
+  ];
 }

@@ -107,17 +107,9 @@ full: add
 # GPU Management
 # ==============
 
-# Show GPU status
+# Show GPU driver and power status
 gpu-status:
     sudo /etc/scripts/gpu-status.sh
-
-# Bind Radeon GPU to VFIO for VM passthrough
-gpu-bind:
-    sudo /etc/scripts/bind-radeon-gpu.sh
-
-# Unbind Radeon GPU from VFIO (return to host)
-gpu-unbind:
-    sudo /etc/scripts/unbind-radeon-gpu.sh
 
 # Utilities
 # =========

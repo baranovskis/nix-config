@@ -20,6 +20,9 @@
 
     # Gaming
     ./gaming.nix
+
+    # Storage
+    ./zfs.nix
   ];
 
   # Host-specific configuration
@@ -31,13 +34,14 @@
 
     # Hardware-specific kernel parameters
     kernelParams = [
-      "acpi_rev_override=1"  # ACPI compatibility fix
+      "acpi_rev_override=1"
+      "loglevel=3"
     ];
 
     loader = {
       systemd-boot = {
         enable = true;
-        configurationLimit = 10;  # Limit stored generations
+        configurationLimit = 5;
       };
       efi.canTouchEfiVariables = true;
       timeout = 3;

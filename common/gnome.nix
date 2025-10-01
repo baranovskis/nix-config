@@ -46,6 +46,7 @@
 
   environment.systemPackages = with pkgs; [
     gnome-tweaks
+    gnome-remote-desktop
     gnomeExtensions.alphabetical-app-grid
     gnomeExtensions.appindicator
     gnomeExtensions.auto-accent-colour
@@ -58,7 +59,7 @@
     gnomeExtensions.caffeine
   ];
 
-  ## Exclusions ##
+  ## Exclusions
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-music
@@ -73,5 +74,6 @@
       iagno
       hitori
       atomix
+      gnome-system-monitor
     ]);
 }

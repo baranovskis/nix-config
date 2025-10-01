@@ -11,6 +11,10 @@
     wget
     pciutils
     usbutils
-    just  # Command runner for simplified workflows
+    mesa-demos
+    mission-center
+    just
+    ntfs3g
+    openssl
   ];
 }

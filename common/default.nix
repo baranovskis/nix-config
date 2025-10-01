@@ -16,6 +16,7 @@
 
     # Development & Services
     ./docker.nix
+    ./nfs.nix
     ./networking.nix
     ./virtualization.nix
 

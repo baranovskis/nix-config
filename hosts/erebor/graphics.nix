@@ -12,7 +12,7 @@
   # Enable OpenGL and Vulkan support
   hardware.graphics = {
     enable = true;
-    enable32Bit = true;  # Required for 32-bit games and Wine
+    enable32Bit = true;
   };
 
   users.users.${username} = {
