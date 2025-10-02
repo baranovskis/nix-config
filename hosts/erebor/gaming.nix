@@ -20,17 +20,10 @@
     # Performance tools
     gamemode
 
-    # Wine for Windows games
-    wineWowPackages.staging
-    winetricks
-
     # Game launchers
     lutris
     heroic
     bottles
-
-    # VFIO & GPU Passthrough
-    looking-glass-client
   ];
 
   users.users.${username} = {

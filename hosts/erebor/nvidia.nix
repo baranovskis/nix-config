@@ -6,6 +6,11 @@
   ...
 }:
 {
+  # NVIDIA kernel parameters
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+  ];
+
   # NVIDIA RTX 4060 Configuration
   hardware.nvidia = {
     modesetting.enable = true;
@@ -15,12 +20,7 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-
-  # NVIDIA kernel parameters
-  boot.kernelParams = [
-    "nvidia-drm.modeset=1"
-  ];
-
+  
   # Enable NVIDIA NVENC for hardware encoding (needed for RDP)
   hardware.graphics = {
     enable = true;

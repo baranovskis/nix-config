@@ -22,6 +22,9 @@ let
   '';
 in
 {
+  # Enable NVIDIA GPU support in Docker
+  hardware.nvidia-container-toolkit.enable = true;
+
   virtualisation = {
     docker = {
       enable = true;

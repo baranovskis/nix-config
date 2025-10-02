@@ -7,6 +7,7 @@
     curl
     git
     openssh
+    openssl
     sshfs
     wget
     pciutils
@@ -14,7 +15,5 @@
     mesa-demos
     mission-center
     just
-    ntfs3g
-    openssl
   ];
 }

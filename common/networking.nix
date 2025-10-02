@@ -16,12 +16,6 @@
     useDHCP = lib.mkDefault true;
     useHostResolvConf = false;
     usePredictableInterfaceNames = true;
-
-    # Firewall configuration
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 3389 ]; # RDP
-    };
   };
 
   users.users.${username} = {

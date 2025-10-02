@@ -50,4 +50,9 @@
   services.udev.extraRules = ''
     SUBSYSTEM=="kvmfr", OWNER="${username}", GROUP="kvm", MODE="0666"
   '';
+
+  # Lookiong Glass client
+  environment.systemPackages = with pkgs; [
+    looking-glass-client
+  ];
 }
