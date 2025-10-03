@@ -30,6 +30,13 @@ with lib.hm.gvariant;
       experimental-features = lib.mkDefault [ "scale-monitor-framebuffer" ];
     };
 
+    # GNOME Remote Desktop configuration
+    "org/gnome/desktop/remote-desktop/rdp" = {
+      enable = true;
+      view-only = false;
+      screen-share-mode = "extend";
+    };
+
     #"org/gnome/settings-daemon/plugins/color" = lib.mkDefault {
     #  night-light-enabled = true;
     #  night-light-schedule-automatic = false;

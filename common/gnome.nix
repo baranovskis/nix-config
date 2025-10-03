@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 {
@@ -26,7 +27,16 @@
 
       # Set the custom session as default
       defaultSession = lib.mkForce "gnome";
+
+      # Enable autologin without locking after login
+      autoLogin = {
+        enable = true;
+        user = username;
+      };
     };
+
+    # Prevent automatic lock after autologin
+    xserver.displayManager.gdm.autoLogin.delay = 0;
 
     # Configure keyboard layout for Wayland
     xserver = {
