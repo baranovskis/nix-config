@@ -11,6 +11,19 @@
     "nvidia-drm.modeset=1"
   ];
 
+  # Additional graphics packages
+  hardware.graphics.extraPackages = with pkgs; [ 
+    nvidia-vaapi-driver
+    egl-wayland
+  ];
+
+  # Environment variables for NVIDIA
+  environment.variables = {
+    NVD_BACKEND = "direct";
+    LIBVA_DRIVER_NAME = "nvidia";
+  };
+
+
   # NVIDIA RTX 4060 Configuration
   hardware.nvidia = {
     modesetting.enable = true;
@@ -19,15 +32,5 @@
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-  
-  # Enable NVIDIA NVENC for hardware encoding (needed for RDP)
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      nvidia-vaapi-driver
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
   };
 }

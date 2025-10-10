@@ -1,6 +1,6 @@
 # My NixOS Configuration
 
-![Desktop Screenshot](assets/screenshot.png)
+![Desktop Screenshot](assets/screenshot.jpg)
 
 ## What This Is
 

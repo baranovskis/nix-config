@@ -12,13 +12,13 @@
 
     # Desktop Environment
     ./gnome.nix
+    #./kde.nix
     ./fonts.nix
 
     # Development & Services
     ./docker.nix
     ./nfs.nix
     ./networking.nix
-    ./rdp.nix
     ./virtualization.nix
 
     # Security
