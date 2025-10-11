@@ -82,6 +82,7 @@
       application-id = "org.telegram.desktop.desktop";
     };
     "org/gnome/desktop/wm/preferences" = {
+      button-layout = "appmenu:minimize,maximize,close";
       num-workspaces = 3;
     };
     "org/gnome/eog/view" = {
@@ -95,7 +96,9 @@
       experimental-features = [ "scale-monitor-framebuffer" ];
     };
     "org/gnome/nautilus/preferences" = {
+      default-folder-viewer = "icon-view";
       migrated-gtk-settings = true;
+      search-filter-time-type = "last_modified";
     };
     "org/gnome/shell" = {
       disable-user-extensions = false;
@@ -278,11 +281,25 @@
     "org/gnome/shell/world-clocks" = {
       locations = [];
     };
+    "org/gnome/tweaks" = {
+      show-extensions-notice = false;
+    };
     "org/gtk/gtk4/settings/file-chooser" = {
       show-hidden = false;
     };
     "org/gtk/settings/file-chooser" = {
+      date-format = "regular";
+      location-mode = "path-bar";
       show-hidden = false;
+      show-size-column = true;
+      show-type-column = true;
+      sidebar-width = 172;
+      sort-column = "name";
+      sort-directories-first = false;
+      sort-order = "ascending";
+      type-format = "category";
+      window-position = lib.hm.gvariant.mkTuple [ 26 23 ];
+      window-size = lib.hm.gvariant.mkTuple [ 1522 1006 ];
     };
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
