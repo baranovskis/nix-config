@@ -10,6 +10,18 @@
   environment.sessionVariables = {
     # Use user-space threading for KMS (improves NVIDIA Wayland performance)
     MUTTER_DEBUG_KMS_THREAD_TYPE = "user";
+
+    # Fix .org.gnome.Naut[13490]: Failed to initialize OpenGL with Gtk
+    GDK_GL = "gles";
+
+    # Nautilus Audio/Video Properties: Your GStreamer installation is missing a plug-in.
+    # https://github.com/NixOS/nixpkgs/issues/195936#issuecomment-1278954466
+    GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
+      pkgs.gst_all_1.gst-plugins-good
+      pkgs.gst_all_1.gst-plugins-bad
+      pkgs.gst_all_1.gst-plugins-ugly
+      pkgs.gst_all_1.gst-libav
+    ];
   };
 
   services = {
@@ -22,7 +34,7 @@
       '';
     };
 
-    # hosts/global/core/ssh.nix handles this
+    # Disable GNOME's SSH agent (using standard SSH agent from common/ssh.nix)
     gnome.gcr-ssh-agent.enable = false;
 
     displayManager = {
@@ -50,6 +62,7 @@
 
   environment.systemPackages = with pkgs; [
     gnome-tweaks
+    gnome-remote-desktop 
     gnomeExtensions.desktop-icons-ng-ding
     gnomeExtensions.logo-menu
     gnomeExtensions.pop-shell
@@ -76,7 +89,6 @@
       geary
       gnome-characters
       tali
-      totem
       iagno
       hitori
       atomix

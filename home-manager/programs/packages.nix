@@ -21,5 +21,8 @@
 
     # Fonts for Looking Glass
     dejavu_fonts
+
+    # Themes
+    kora-icon-theme
   ];
 }

@@ -19,6 +19,7 @@
     ./docker.nix
     ./nfs.nix
     ./networking.nix
+    ./rdp.nix
     ./virtualization.nix
 
     # Security

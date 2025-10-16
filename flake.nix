@@ -13,12 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    # VM tools
-    nixvirt = {
-      url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-
     # Theming
     stylix = {
       url = "github:danth/stylix";
@@ -29,11 +23,6 @@
     solaar = {
       url = "github:Svenum/solaar-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 

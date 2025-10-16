@@ -59,7 +59,7 @@
       picture-uri-dark = "file:///nix/store/iaa9q486iwr4r2vm09971ndb87pqxrsm-wallhaven-lym7pl.jpg";
     };
     "org/gnome/desktop/input-sources" = {
-      sources = [ "[xkb us]" "[xkb ru]" ];
+      sources = [ (lib.hm.gvariant.mkTuple [ "xkb" "us" ]) (lib.hm.gvariant.mkTuple [ "xkb" "ru" ]) ];
       xkb-options = [ "terminate:ctrl_alt_bksp" ];
     };
     "org/gnome/desktop/interface" = {
@@ -69,6 +69,7 @@
       enable-animations = true;
       font-name = "Inter 12";
       gtk-theme = "adw-gtk3";
+      icon-theme = "kora";
       monospace-font-name = "JetBrains Mono 12";
       toolkit-accessibility = false;
     };
