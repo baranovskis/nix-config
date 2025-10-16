@@ -12,8 +12,6 @@
 
     # Desktop Environment
     ./gnome.nix
-    #./kde.nix
-    ./fonts.nix
 
     # Development & Services
     ./docker.nix

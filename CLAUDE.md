@@ -97,40 +97,21 @@ git add .
 ### Simplifying Commands with `just`
 This configuration includes [just](https://github.com/casey/just) command runner (installed in `common/packages.nix`) with a Justfile providing shortcuts:
 
-```just
-# Create a Justfile with common operations
-default:
-  @just --list
+```bash
+# Build and switch system configuration
+just system
 
-# System operations
-deploy:
-  sudo nixos-rebuild switch --flake .#erebor
+# Build and switch home-manager configuration
+just user
 
-test:
-  sudo nixos-rebuild test --flake .#erebor
+# Update flake inputs to latest versions
+just update
 
-debug:
-  sudo nixos-rebuild switch --flake .#erebor --show-trace --verbose
-
-# Home manager
-home:
-  home-manager switch --flake .
-
-# Maintenance
-up:
-  nix flake update
-
-history:
-  sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
-
-clean:
-  sudo nix-collect-garbage --delete-older-than 7d
-
-gc:
-  nix-collect-garbage -d
+# Clean old generations (system + home-manager, keeps last 7 days)
+just clean
 ```
 
-Benefits: Reduces command verbosity, provides consistent shortcuts, and improves workflow efficiency.
+The Justfile keeps things stupid simple - just build, update, and cleanup commands.
 
 ## Architecture
 
@@ -176,8 +157,8 @@ To add a new host:
 - `solaar.nix`: Logitech device management
 
 **Desktop Environment:**
-- `gnome.nix`: GNOME desktop environment (includes RDP remote desktop support)
-- `fonts.nix`: System fonts configuration
+- `gnome.nix`: GNOME desktop environment
+- `rdp.nix`: Remote desktop protocol (GNOME RDP support)
 
 **Development & Services:**
 - `docker.nix`: Docker containerization
@@ -193,7 +174,8 @@ To add a new host:
 - `gc.nix`: Garbage collection settings
 - `locale.nix`: Timezone and internationalization settings
 - `nix.nix`: Nix daemon and flake configuration
-- `packages.nix`: System-wide packages
+- `packages.nix`: System-wide packages (includes just)
+- `power.nix`: Power management settings
 - `printing.nix`: CUPS printing service
 - `shell.nix`: Shell configuration (Fish)
 - `user.nix`: User account definitions
@@ -215,8 +197,8 @@ Shared user configuration across all hosts:
 - `programs/`: User application configurations
   - `default.nix`: Program module imports
   - `direnv.nix`: direnv with nix-direnv integration
+  - `looking-glass.nix`: Looking Glass client configuration
   - `packages.nix`: General user packages (categorized)
-  - `zen.nix`: Zen browser and MIME associations
 - `themes/`: Theming configurations
   - `stylix.nix`: Stylix theme settings and fonts
 - `wallpapers/`: System wallpapers

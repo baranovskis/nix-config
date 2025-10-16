@@ -12,6 +12,7 @@
     MUTTER_DEBUG_KMS_THREAD_TYPE = "user";
 
     # Fix .org.gnome.Naut[13490]: Failed to initialize OpenGL with Gtk
+    # https://gitlab.gnome.org/GNOME/sushi/-/issues/135#note_2500306
     GDK_GL = "gles";
 
     # Nautilus Audio/Video Properties: Your GStreamer installation is missing a plug-in.

@@ -69,12 +69,24 @@
       enable-animations = true;
       font-name = "Inter 12";
       gtk-theme = "adw-gtk3";
-      icon-theme = "kora";
       monospace-font-name = "JetBrains Mono 12";
       toolkit-accessibility = false;
     };
     "org/gnome/desktop/notifications" = {
       application-children = [ "org-telegram-desktop" "firefox" ];
+    };
+    "org/gnome/desktop/screensaver" = {
+      lock-enabled = true;
+      lock-delay = lib.hm.gvariant.mkUint32 0;
+    };
+    "org/gnome/desktop/session" = {
+      idle-delay = lib.hm.gvariant.mkUint32 600;
+    };
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-type = "nothing";
+      sleep-inactive-battery-type = "nothing";
+      sleep-inactive-ac-timeout = 0;
+      sleep-inactive-battery-timeout = 0;
     };
     "org/gnome/desktop/notifications/application/firefox" = {
       application-id = "firefox.desktop";
@@ -119,7 +131,7 @@
       menu-button-icon-size = 24;
       menu-button-software-center = "";
       menu-button-system-monitor = "missioncenter";
-      menu-button-terminal = "gnome-terminal";
+      menu-button-terminal = "kgx";
       show-activities-button = false;
       show-lockscreen = true;
       show-power-options = true;

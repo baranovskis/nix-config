@@ -38,16 +38,18 @@ nix-config/
 │   ├── audio.nix          # Audio/PipeWire
 │   ├── bluetooth.nix      # Bluetooth
 │   ├── docker.nix         # Docker containerization
-│   ├── fonts.nix          # System fonts
 │   ├── gc.nix             # Garbage collection
 │   ├── gnome.nix          # GNOME desktop
 │   ├── gnupg.nix          # GnuPG
 │   ├── locale.nix         # Timezone & i18n
 │   ├── networking.nix     # Network configuration
+│   ├── nfs.nix            # NFS server/client
 │   ├── nix.nix            # Nix daemon settings
 │   ├── nuphy.nix          # NuPhy keyboard
 │   ├── packages.nix       # System packages (includes just)
+│   ├── power.nix          # Power management
 │   ├── printing.nix       # CUPS printing
+│   ├── rdp.nix            # Remote desktop (GNOME RDP)
 │   ├── shell.nix          # Fish shell
 │   ├── solaar.nix         # Logitech devices
 │   ├── ssh.nix            # SSH configuration
@@ -61,8 +63,8 @@ nix-config/
 │   ├── programs/          # User applications (shared)
 │   │   ├── default.nix    # Program imports
 │   │   ├── direnv.nix     # direnv integration
-│   │   ├── packages.nix   # User packages
-│   │   └── zen.nix        # Zen browser
+│   │   ├── looking-glass.nix # Looking Glass client
+│   │   └── packages.nix   # User packages
 │   ├── themes/            # Theming
 │   │   └── stylix.nix     # Stylix configuration
 │   └── wallpapers/        # System wallpapers
@@ -70,7 +72,7 @@ nix-config/
 │   └── citron-emu/        # Custom emulator package
 ├── overlays/              # Package modifications
 │   └── default.nix        # Package overlays
-└── Justfile               # Command shortcuts (just deploy, etc.)
+└── Justfile               # Command shortcuts (just system, just user, just clean)
 ```
 
 ## 🚀 Quick Start
@@ -120,82 +122,36 @@ nix-config/
 
 This configuration uses `just` for simplified command management. Run `just` to see all available commands.
 
-### Quick Start with Just
+### Quick Commands
 ```bash
-# Show all available commands
-just
+# Build and switch system configuration
+just system
 
-# Deploy system configuration
-just deploy
+# Build and switch home-manager configuration
+just user
 
-# Deploy home-manager configuration
-just home
+# Update flake inputs to latest versions
+just update
 
-# Deploy everything (system + home)
-just full
-
-# Update all flake inputs
-just up
-
-# Clean old generations
+# Clean old generations (system + home, keeps last 7 days)
 just clean
 ```
 
-### System Management
-```bash
-# With just (recommended)
-just deploy          # Deploy system
-just test            # Test without switching
-just debug           # Deploy with verbose output
-just boot            # Activate on next boot
-just dry             # Show what would change
+That's it! Keep it simple.
 
-# Direct commands (if preferred)
+### Manual Commands (if you prefer)
+```bash
+# System
 sudo nixos-rebuild switch --flake .#erebor
-sudo nixos-rebuild test --flake .#erebor
-nix flake update
-nix flake check
-```
 
-### Home Environment
-```bash
-# With just
-just home            # Deploy home-manager
-just home-build      # Build without switching
-just home-clean      # Remove old generations
-
-# Direct commands
+# Home-manager
 home-manager switch --flake .
-home-manager build --flake .
-```
 
-### Maintenance
-```bash
-# With just
-just history         # Show system generations
-just home-history    # Show home generations
-just clean           # Clean old (7+ days)
-just gc              # Deep clean all old generations
-just check           # Check flake for errors
+# Flake updates
+nix flake update
 
-# GPU management
-just gpu-status      # Show GPU status
-just gpu-bind        # Bind Radeon to VFIO
-just gpu-unbind      # Return Radeon to host
-```
-
-### Package Management
-```bash
-# With just
-just search firefox     # Search for packages
-just package citron-emu # Build specific package
-just shell nodejs       # Enter dev shell
-
-# Direct commands
-nix search nixpkgs firefox
-nix build .#citron-emu
-nix shell .#package-name
-nix flake show
+# Check for errors
+nix flake check
 ```
 
 ## 🎛️ Configuration Details
@@ -224,42 +180,6 @@ nix flake show
 - **GPG**: Configured for secure communications
 - **SSH**: Optimized client configuration
 - **Firewall**: Enabled with sensible defaults
-
-## 🔧 Customization
-
-### Adding New Packages
-
-**User packages** (home-manager):
-- Add to `home-manager/programs/packages.nix` for general apps
-- Create new module in `home-manager/programs/` for specific programs
-
-**System packages**:
-- Add to `common/packages.nix` for system-wide tools
-- Add to `hosts/hostname/*.nix` for host-specific packages (e.g., gaming apps in `hosts/erebor/gaming.nix`)
-
-**Custom packages**:
-1. Create derivation in `pkgs/yourpackage/`
-2. Update `overlays/default.nix` to expose the package
-
-### Theming Changes
-- Modify theme settings in `home-manager/themes/stylix.nix`
-- Update wallpapers in `home-manager/wallpapers/`
-- Customize GNOME settings in `common/gnome.nix` and `home-manager/config/dconf.nix`
-
-### Hardware Adjustments
-- Update `hosts/erebor/hardware.nix` for hardware-specific settings
-- Modify GPU drivers in `hosts/erebor/nvidia.nix` or `radeon.nix`
-- Adjust VFIO settings in `hosts/erebor/vfio.nix`
-
-### Adding a New Host
-1. Create `hosts/newhostname/` directory
-2. Copy and customize files from `hosts/erebor/`
-3. Add entry in `flake.nix` under `nixosConfigurations`
-4. Deploy with:
-   ```bash
-   sudo nixos-rebuild switch --flake .#newhostname
-   home-manager switch --flake .
-   ```
 
 ## 🆘 Troubleshooting
 

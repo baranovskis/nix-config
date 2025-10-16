@@ -4,14 +4,32 @@
     autoEnable = true;
     image = ../wallpapers/wallhaven-lym7pl.jpg;
     polarity = "dark";
+
+    cursor = {
+      package = pkgs.capitaine-cursors;
+      name = "capitaine-cursors";
+      size = 32;
+    };
+
+    iconTheme = {
+      enable = true;
+      package = pkgs.papirus-icon-theme;
+      dark = "Papirus-Dark";
+      light = "Papirus-Light";
+    };
+
     fonts = {
       serif = {
-        package = pkgs.google-fonts.override {fonts = ["Inter"];};
+        package = pkgs.google-fonts.override {
+          fonts = ["Inter"];
+        };
         name = "Inter";
       };
 
       sansSerif = {
-        package = pkgs.google-fonts.override {fonts = ["Inter"];};
+        package = pkgs.google-fonts.override {
+          fonts = ["Inter"];
+        };
         name = "Inter";
       };
 
@@ -33,13 +51,14 @@
       };
     };
     targets = {
+      firefox.enable = true;
       gnome = {
         enable = true;
         useWallpaper = true;
       };
       vscode = {
-        enable = false;
-        #profileNames = [ "Stylix" ];
+        enable = true;
+        profileNames = [ "default" ];
       };
     };
   };

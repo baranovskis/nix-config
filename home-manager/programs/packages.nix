@@ -18,11 +18,5 @@
     # Development
     vscode
     nodejs_22
-
-    # Fonts for Looking Glass
-    dejavu_fonts
-
-    # Themes
-    kora-icon-theme
   ];
 }
