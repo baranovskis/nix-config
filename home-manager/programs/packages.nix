@@ -18,5 +18,9 @@
     # Development
     vscode
     nodejs_22
+
+    # Fonts
+    corefonts # Microsoft fonts (Verdana, Arial, Times New Roman, etc.)
+    vistafonts # Additional Microsoft fonts (Calibri, Cambria, Consolas, etc.)
   ];
 }
