@@ -12,7 +12,6 @@
 
     ./config
     ./programs
-    ./themes/stylix.nix
   ];
 
   nixpkgs = {

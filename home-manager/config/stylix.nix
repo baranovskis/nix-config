@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{pkgs, ...}: 
+{
   stylix = {
     enable = true;
     autoEnable = true;
@@ -11,7 +12,7 @@
       size = 32;
     };
 
-    iconTheme = {
+    icons = {
       enable = true;
       package = pkgs.papirus-icon-theme;
       dark = "Papirus-Dark";
@@ -51,14 +52,10 @@
       };
     };
     targets = {
-      firefox.enable = true;
-      gnome = {
-        enable = true;
-        useWallpaper = true;
-      };
-      vscode = {
-        enable = true;
-        profileNames = [ "default" ];
+      firefox = {
+        firefoxGnomeTheme = {
+          enable = true;
+        };
       };
     };
   };

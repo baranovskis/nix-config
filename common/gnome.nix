@@ -63,8 +63,7 @@
 
   environment.systemPackages = with pkgs; [
     gnome-tweaks
-    gnome-remote-desktop 
-    gnomeExtensions.desktop-icons-ng-ding
+    gnome-remote-desktop
     gnomeExtensions.logo-menu
     gnomeExtensions.pop-shell
     gnomeExtensions.alphabetical-app-grid
