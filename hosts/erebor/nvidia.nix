@@ -8,29 +8,22 @@
 {
   # NVIDIA kernel parameters
   boot.kernelParams = [
-    "nvidia-drm.modeset=1"
+    # Since NVIDIA does not load kernel mode setting by default,
+    # enabling it is required to make Wayland compositors function properly.
+    "nvidia-drm.fbdev=1"
   ];
 
-  # Additional graphics packages
-  hardware.graphics.extraPackages = with pkgs; [ 
-    nvidia-vaapi-driver
-    egl-wayland
-  ];
-
-  # Environment variables for NVIDIA
-  environment.variables = {
-    NVD_BACKEND = "direct";
-    LIBVA_DRIVER_NAME = "nvidia";
-  };
-
+  # GPU drivers configuration
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # NVIDIA RTX 4060 Configuration
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    open = true;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
   };
+
+  # Enable NVIDIA GPU support in Docker
+  hardware.nvidia-container-toolkit.enable = true;
 }

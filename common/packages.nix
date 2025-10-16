@@ -15,5 +15,6 @@
     mesa-demos
     mission-center
     just
+    vlc
   ];
 }

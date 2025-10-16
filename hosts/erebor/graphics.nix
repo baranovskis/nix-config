@@ -6,9 +6,6 @@
   ...
 }:
 {
-  # GPU drivers configuration
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   # Enable OpenGL and Vulkan support
   hardware.graphics = {
     enable = true;

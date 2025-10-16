@@ -30,6 +30,7 @@
     ./locale.nix
     ./nix.nix
     ./packages.nix
+    ./power.nix
     ./printing.nix
     ./shell.nix
     ./user.nix

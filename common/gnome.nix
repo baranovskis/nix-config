@@ -6,13 +6,19 @@
   ...
 }:
 {
+  # GNOME-specific environment variables for better performance
+  environment.sessionVariables = {
+    # Use user-space threading for KMS (improves NVIDIA Wayland performance)
+    MUTTER_DEBUG_KMS_THREAD_TYPE = "user";
+  };
+
   services = {
     desktopManager.gnome = {
       enable = true;
       extraGSettingsOverridePackages = [ pkgs.mutter ];
       extraGSettingsOverrides = ''
         [org.gnome.mutter]
-        experimental-features=['scale-monitor-framebuffer']
+        experimental-features=['scale-monitor-framebuffer', 'xwayland-native-scaling', 'kms-modifiers']
       '';
     };
 
@@ -69,8 +75,8 @@
       epiphany
       geary
       gnome-characters
-      totem
       tali
+      totem
       iagno
       hitori
       atomix
