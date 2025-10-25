@@ -11,13 +11,8 @@
     enable = true;
     qemu = {
       package = pkgs.stable.qemu_kvm;
-      runAsRoot = false;
+      runAsRoot = true;
       swtpm.enable = true;
-      verbatimConfig = ''
-        namespaces = []
-        user = "${username}"
-        group = "kvm"
-      '';
     };
   };
 
@@ -33,8 +28,8 @@
     virt-viewer
 
     # Windows VM drivers (needed for GPU passthrough with Looking Glass)
-    stable.win-virtio # VirtIO drivers for Windows guests
-    stable.win-spice  # SPICE guest tools for Windows
+    stable.win-virtio
+    stable.win-spice
   ];
 
   users.users.${username} = {

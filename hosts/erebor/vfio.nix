@@ -47,11 +47,13 @@
   '';
 
   # Looking Glass udev rules
+  # Note: OWNER cannot be set to a non-system user in udev
+  # We use GROUP="kvm" with MODE="0660" and ensure user is in kvm group
   services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="${username}", GROUP="kvm", MODE="0666"
+    SUBSYSTEM=="kvmfr", GROUP="kvm", MODE="0660"
   '';
 
-  # Lookiong Glass client
+  # Looking Glass client
   environment.systemPackages = with pkgs; [
     looking-glass-client
   ];

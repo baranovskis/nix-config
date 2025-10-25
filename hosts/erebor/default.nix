@@ -50,6 +50,9 @@
     };
   };
 
+  # Browsing samba shares with GVFS
+  services.gvfs.enable = true;
+
   # Windows dual-boot time fix
   time.hardwareClockInLocalTime = true;
 }

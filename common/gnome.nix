@@ -81,6 +81,7 @@
   ## Exclusions
   environment.gnome.excludePackages =
     (with pkgs; [
+      gnome-software
       gnome-music
       gnome-photos
       gnome-tour

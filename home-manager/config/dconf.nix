@@ -165,7 +165,7 @@
     };
     "org/gnome/shell/extensions/blur-my-shell/applications" = {
       blacklist = [ "Plank" "com.desktop.ding" "Conky" ".gamescope-wrapped" "steam_app_*" ".virt-manager-wrapped" ];
-      blur = true;
+      blur = false;
       dynamic-opacity = false;
       enable-all = true;
       opacity = 230;

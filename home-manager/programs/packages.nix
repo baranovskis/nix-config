@@ -11,16 +11,19 @@
     pika-backup
 
     # Productivity
+    remmina
     gimp
     inkscape
     eloquent
 
     # Development
     vscode
+    jetbrains-toolbox
     nodejs_22
 
     # Fonts
-    corefonts # Microsoft fonts (Verdana, Arial, Times New Roman, etc.)
-    vistafonts # Additional Microsoft fonts (Calibri, Cambria, Consolas, etc.)
+    corefonts
+    vistafonts
+    dejavu_fonts
   ];
 }
