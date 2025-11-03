@@ -2,6 +2,7 @@
   home.packages = with pkgs; [
     # Media & Communication
     ffmpeg
+    imagemagick
     spotify
     telegram-desktop
 
@@ -14,6 +15,7 @@
     remmina
     gimp
     inkscape
+    realesrgan-ncnn-vulkan
     eloquent
 
     # Development

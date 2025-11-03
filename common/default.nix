@@ -18,6 +18,7 @@
     ./nfs.nix
     ./networking.nix
     ./rdp.nix
+    ./sunshine.nix
     ./virtualization.nix
 
     # Security
