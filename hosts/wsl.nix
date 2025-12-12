@@ -28,15 +28,14 @@ in
   home.packages = with pkgs; [ vim git curl fd ripgrep starship neovim zsh ];
 
   # Simple WSL-friendly environment tweaks
-  home.sessionVariables = {
-    # Make GUI apps work with a Windows X server (adjust as needed)
-    DISPLAY = lib.mkDefault ('"$(/bin/sh -c "grep -m1 nameserver /etc/resolv.conf | awk '{print $2}'" ):0););
-  };
+  home.sessionVariables = { };
 
   home.file.".bashrc" = {
     text = ''
 # WSL convenience
 export PATH="$HOME/.nix-profile/bin:$PATH"
+# Set DISPLAY dynamically for WSL (for GUI apps)
+export DISPLAY="$(grep -m1 nameserver /etc/resolv.conf | awk '{print $2}'):0"
 # Use Windows Explorer from WSL
 alias explorer='cmd.exe /C start .'
 '';
