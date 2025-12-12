@@ -1,10 +1,14 @@
 { config, pkgs, lib, ... }:
 
 let
-  username = "wsluser"; # byt ut mot din Linux-användare (t.ex. "vinberg")
+  username = "erebor"; # byt ut mot din Linux-användare (t.ex. "vinberg")
   homedir = "/home/${username}";
 in
 {
+  # WSL / host-level options
+  networking.hostName = "hosts";
+  wsl.defaultUser = username;
+
   home.username = username;
   home.homeDirectory = homedir;
 
@@ -26,7 +30,7 @@ in
   # Simple WSL-friendly environment tweaks
   home.sessionVariables = {
     # Make GUI apps work with a Windows X server (adjust as needed)
-    DISPLAY = lib.mkDefault (''$(/bin/sh -c "grep -m1 nameserver /etc/resolv.conf | awk '{print $2}'" ):0);
+    DISPLAY = lib.mkDefault ('"$(/bin/sh -c "grep -m1 nameserver /etc/resolv.conf | awk '{print $2}'" ):0););
   };
 
   home.file.".bashrc" = {
