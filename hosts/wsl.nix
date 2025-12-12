@@ -23,7 +23,7 @@ in
     userEmail = "you@example.com";
   };
 
-  programs.ssh-agent.enable = true;
+  services.ssh-agent.enable = true;
 
   home.packages = with pkgs; [ vim git curl fd ripgrep starship neovim zsh ];
 
