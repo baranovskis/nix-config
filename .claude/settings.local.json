@@ -6,7 +6,8 @@
       "Bash(lspci:*)",
       "Bash(mkdir:*)",
       "Bash(journalctl:*)",
-      "Bash(dmesg:*)"
+      "Bash(dmesg:*)",
+      "Bash(systemd-analyze:*)"
     ],
     "deny": [],
     "ask": []

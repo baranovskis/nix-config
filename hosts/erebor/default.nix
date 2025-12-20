@@ -37,8 +37,18 @@
     # Hardware-specific kernel parameters
     kernelParams = [
       "acpi_rev_override=1"
+      "quiet"
       "loglevel=3"
+      "systemd.show_status=auto"
+      "rd.udev.log_level=3"
     ];
+
+    # Suppress boot messages for clean boot experience
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+
+    # Plymouth for graphical boot splash
+    plymouth.enable = true;
 
     loader = {
       systemd-boot = {

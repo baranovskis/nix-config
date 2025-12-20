@@ -6,6 +6,9 @@
   # Required: Unique host ID for ZFS
   networking.hostId = "afeb27ee";
 
+  # Disable deprecated udev-settle service that causes 2min boot delay
+  systemd.services.systemd-udev-settle.enable = false;
+
   # ZFS services
   services.zfs.autoScrub.enable = true;
   services.zfs.autoScrub.interval = "monthly";

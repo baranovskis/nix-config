@@ -9,10 +9,10 @@
     # Security & Utilities
     bitwarden-desktop
     firefox
-    pika-backup
 
     # Productivity
     remmina
+    rustdesk-flutter
     gimp
     inkscape
     realesrgan-ncnn-vulkan
@@ -22,10 +22,12 @@
     vscode
     jetbrains-toolbox
     nodejs_22
+    python3
+    claude-code
 
     # Fonts
     corefonts
-    vistafonts
+    vista-fonts
     dejavu_fonts
   ];
 }
