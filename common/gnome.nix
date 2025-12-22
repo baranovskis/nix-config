@@ -76,6 +76,7 @@
     gnomeExtensions.undecorate
     gnomeExtensions.vitals
     gnomeExtensions.caffeine
+    gnomeExtensions.user-themes
   ];
 
   ## Exclusions

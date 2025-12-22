@@ -23,6 +23,9 @@
 
     # Storage
     ./zfs.nix
+
+    # Backup
+    ./backup.nix
   ];
 
   # Host-specific configuration

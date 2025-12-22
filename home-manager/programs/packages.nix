@@ -12,7 +12,6 @@
 
     # Productivity
     remmina
-    rustdesk-flutter
     gimp
     inkscape
     realesrgan-ncnn-vulkan
