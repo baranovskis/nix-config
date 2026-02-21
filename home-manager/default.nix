@@ -10,6 +10,7 @@
   imports = [
     inputs.stylix.homeModules.stylix
 
+    ./modules/nautilus.nix
     ./config
     ./programs
   ];
@@ -35,10 +36,21 @@
     };
   };
 
-  # Nautilus bookmarks
-  gtk.gtk3.bookmarks = [
-    "file:///tank Tank"
-  ];
+  # Nautilus file manager
+  programs.nautilus = {
+    enable = true;
+
+    bookmarks = [
+      {
+        path = "/fast";
+        name = "⚡ Fast";
+      }
+      {
+        path = "/tank";
+        name = "🫙 Tank";
+      }
+    ];
+  };
 
   programs.home-manager.enable = true;
 

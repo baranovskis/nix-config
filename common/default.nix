@@ -15,6 +15,7 @@
 
     # Development & Services
     ./docker.nix
+    ./flatpak.nix
     ./nfs.nix
     ./networking.nix
     ./rdp.nix

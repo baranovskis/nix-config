@@ -24,6 +24,9 @@
       url = "github:Svenum/solaar-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Flatpak
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs = {
@@ -48,6 +51,7 @@
           inherit inputs outputs username;
         };
         modules = [
+          inputs.nix-flatpak.nixosModules.nix-flatpak
           ./common
           ./hosts/erebor
         ];
@@ -59,6 +63,7 @@
           inherit inputs outputs username;
         };
         modules = [
+          inputs.nix-flatpak.nixosModules.nix-flatpak
           ./common
           ./hosts/erebor
         ];
@@ -71,6 +76,7 @@
           inherit inputs outputs username;
         };
         modules = [
+          inputs.nix-flatpak.nixosModules.nix-flatpak
           ./common
           ./hosts/erebor
         ];
