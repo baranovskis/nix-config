@@ -1,4 +1,4 @@
-{pkgs, ...}: 
+{pkgs, ...}:
 {
   stylix = {
     enable = true;
@@ -52,11 +52,6 @@
       };
     };
     targets = {
-      firefox = {
-        firefoxGnomeTheme = {
-          enable = true;
-        };
-      };
     };
   };
 }

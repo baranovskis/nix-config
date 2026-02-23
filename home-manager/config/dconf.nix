@@ -73,7 +73,7 @@
       toolkit-accessibility = false;
     };
     "org/gnome/desktop/notifications" = {
-      application-children = [ "org-telegram-desktop" "firefox" ];
+      application-children = [ "org-telegram-desktop" ];
     };
     "org/gnome/desktop/screensaver" = {
       lock-enabled = true;
@@ -87,9 +87,6 @@
       sleep-inactive-battery-type = "nothing";
       sleep-inactive-ac-timeout = 0;
       sleep-inactive-battery-timeout = 0;
-    };
-    "org/gnome/desktop/notifications/application/firefox" = {
-      application-id = "firefox.desktop";
     };
     "org/gnome/desktop/notifications/application/org-telegram-desktop" = {
       application-id = "org.telegram.desktop.desktop";
@@ -117,7 +114,7 @@
       disable-user-extensions = false;
       disabled-extensions = [ "ding@rastersoft.com" ];
       enabled-extensions = [ "AlphabeticalAppGrid@stuarthayhurst" "appindicatorsupport@rgcjonas.gmail.com" "auto-accent-colour@Wartybix" "blur-my-shell@aunetx" "color-picker@tuberry" "dash-in-panel@fthx" "solaar-extension@sidevesh" "undecorate@sun.wxg@gmail.com" "user-theme@gnome-shell-extensions.gcampax.github.com" "Vitals@CoreCoding.com" "caffeine@patapon.info" "logomenu@aryan_k" "pop-shell@system76.com" "just-perfection-desktop@just-perfection" ];
-      favorite-apps = [ "firefox.desktop" "org.gnome.Nautilus.desktop" "org.telegram.desktop.desktop" "org.gnome.Console.desktop" "code.desktop" ];
+      favorite-apps = [ "org.gnome.Nautilus.desktop" "org.telegram.desktop.desktop" "org.gnome.Console.desktop" ];
       last-selected-power-profile = "performance";
       welcome-dialog-last-shown-version = "48.4";
     };

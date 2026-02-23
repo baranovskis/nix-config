@@ -33,8 +33,6 @@
 
   # Boot configuration
   boot = {
-    # Using 6.12 LTS kernel for ZFS compatibility
-    # ZFS support often lags behind the newest kernel releases
     kernelPackages = pkgs.linuxPackages_6_12;
 
     # Hardware-specific kernel parameters

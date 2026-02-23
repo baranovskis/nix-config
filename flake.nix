@@ -27,6 +27,12 @@
 
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    # Zen Browser
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

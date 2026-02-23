@@ -159,6 +159,10 @@ To add a new host:
 **Desktop Environment:**
 - `gnome.nix`: GNOME desktop environment
 - `rdp.nix`: Remote desktop protocol (GNOME RDP support)
+- `zen-browser.nix`: Zen Browser (declarative wrapFirefox configuration)
+
+**Flatpak:**
+- `flatpak.nix`: Flatpak service, Flathub remote, and declarative Flatpak packages (Telegram, Bitwarden)
 
 **Development & Services:**
 - `docker.nix`: Docker containerization
@@ -237,7 +241,8 @@ Shared user configuration across all hosts:
 - `stylix`: System-wide theming
 - `nix-gaming`: Gaming optimizations
 - `nixvirt`: VM management tools
-- `zen-browser`: Custom browser package
+- `zen-browser`: Zen Browser (declarative wrapFirefox wrapper)
+- `nix-flatpak`: Declarative Flatpak management
 - `solaar`: Logitech device management
 
 ### User Configuration

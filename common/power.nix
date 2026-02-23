@@ -3,6 +3,13 @@
   # Enable power management
   powerManagement = {
     enable = true;
+    cpuFreqGovernor = "performance";
+  };
+
+  # Desktop performance tuning
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+    "vm.vfs_cache_pressure" = 50;
   };
 
   # Disable systemd targets for sleep and hibernation

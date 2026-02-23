@@ -12,6 +12,7 @@
 
     # Desktop Environment
     ./gnome.nix
+    ./zen-browser.nix
 
     # Development & Services
     ./docker.nix

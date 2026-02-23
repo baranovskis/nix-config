@@ -19,6 +19,10 @@
         "flakes"
       ];
 
+      # Build performance
+      max-jobs = "auto";
+      cores = 0;
+
       # Deduplicate and optimize nix store
       warn-dirty = false;
       auto-optimise-store = true;

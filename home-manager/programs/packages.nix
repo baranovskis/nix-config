@@ -1,14 +1,11 @@
-{pkgs, ...}: {
+{pkgs, inputs, ...}: {
   home.packages = with pkgs; [
     # Media & Communication
     ffmpeg
     imagemagick
     spotify
-    telegram-desktop
 
     # Security & Utilities
-    bitwarden-desktop
-    firefox
 
     # Productivity
     remmina
@@ -18,11 +15,12 @@
     eloquent
 
     # Development
-    vscode
+    zed-editor
     jetbrains-toolbox
     nodejs_22
     python3
     claude-code
+    fastfetch
 
     # Fonts
     corefonts

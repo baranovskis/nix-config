@@ -10,7 +10,11 @@
       "Bash(systemd-analyze:*)",
       "Bash(zpool status:*)",
       "Bash(zpool list:*)",
-      "Bash(zfs list:*)"
+      "Bash(zfs list:*)",
+      "mcp__acp__Edit",
+      "mcp__acp__Bash",
+      "WebFetch(domain:wiki.nixos.org)",
+      "mcp__acp__Write"
     ],
     "deny": [],
     "ask": []

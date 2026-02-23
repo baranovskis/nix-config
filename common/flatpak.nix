@@ -21,6 +21,8 @@
   # Declarative Flatpak packages
   services.flatpak.packages = [
     "io.github.kolunmi.Bazaar" # GNOME Flatpak app store
+    "org.telegram.desktop"
+    "com.bitwarden.desktop"
   ];
 
   # Global overrides for all Flatpak apps
