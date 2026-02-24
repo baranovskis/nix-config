@@ -1,16 +1,10 @@
-{pkgs, inputs, ...}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    # Media & Communication
+    # Media (CLI tools — GUI media apps live in Flatpak)
     ffmpeg
     imagemagick
-    spotify
 
-    # Security & Utilities
-
-    # Productivity
-    remmina
-    gimp
-    inkscape
+    # Productivity (Nix-only — not available or unsuitable for Flatpak)
     realesrgan-ncnn-vulkan
     eloquent
 
@@ -20,7 +14,15 @@
     nodejs_22
     python3
     claude-code
-    fastfetch
+
+    # Modern CLI tools (Bluefin-inspired replacements)
+    fd # find replacement
+    ripgrep # grep replacement
+    dust # du replacement
+    duf # df replacement
+    procs # ps replacement
+    sd # sed replacement
+    tealdeer # tldr pages
 
     # Fonts
     corefonts

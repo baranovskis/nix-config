@@ -1,3 +1,10 @@
+# Flatpak-first: GUI applications managed declaratively through Flathub
+#
+# Hybrid design — each layer has a clear responsibility:
+#   Nix (system)       → kernel, drivers, services, desktop shell
+#   Nix (home-manager) → CLI tools, dev tools, shell config, fonts
+#   Flatpak            → GUI applications (sandboxed, independent lifecycle)
+#   Containers         → development environments (isolated, reproducible)
 {...}: {
   services.flatpak.enable = true;
 
@@ -18,20 +25,32 @@
     onCalendar = "weekly";
   };
 
-  # Declarative Flatpak packages
+  # Declarative Flatpak packages — all GUI applications live here
   services.flatpak.packages = [
-    "io.github.kolunmi.Bazaar" # GNOME Flatpak app store
+    # App Store & Flatpak Management
+    "io.github.kolunmi.Bazaar" # Curated Flathub storefront
+    "com.github.tchx84.Flatseal" # Flatpak permissions manager
+    "io.github.flattool.Warehouse" # Flatpak management (pin, rollback, bulk ops)
+
+    # GNOME Extensions
+    "com.mattjakeman.ExtensionManager"
+
+    # Communication
     "org.telegram.desktop"
+
+    # Security
     "com.bitwarden.desktop"
+
+    # Media & Creative
+    "com.spotify.Client"
+    "org.gimp.GIMP"
+    "org.inkscape.Inkscape"
+
+    # Productivity
+    "org.remmina.Remmina"
   ];
 
-  # Global overrides for all Flatpak apps
-  # services.flatpak.overrides = {
-  #   global = {
-  #     Environment.GTK_THEME = "Adwaita:dark";
-  #   };
-  # };
-
-  # Set to true to uninstall flatpaks not declared above
-  # services.flatpak.uninstallUnmanaged = false;
+  # Set to true to enforce fully declarative Flatpak management
+  # (removes any manually installed Flatpaks not listed above)
+  # services.flatpak.uninstallUnmanaged = true;
 }

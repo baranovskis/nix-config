@@ -15,6 +15,5 @@
     mesa-demos
     mission-center
     just
-    neofetch
   ];
 }
