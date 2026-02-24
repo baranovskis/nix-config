@@ -1,3 +1,4 @@
+# Ghostty terminal — inspired by Bluefin OS's use of Ptyxis
 {...}: {
   programs.ghostty = {
     enable = true;

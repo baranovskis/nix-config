@@ -4,7 +4,7 @@
 
 ## What This Is
 
-This is my personal NixOS setup using flakes and home-manager. It's configured for GNOME with gaming support, nice theming via Stylix, and includes the tools I actually use day-to-day.
+This is my personal NixOS setup using flakes and home-manager. It's configured for GNOME with gaming support, nice theming via Stylix, and includes the tools I actually use day-to-day. Inspired by [Bluefin OS](https://projectbluefin.io/) and its opinionated approach to a reliable, well-configured desktop.
 
 Feel free to steal anything useful from it!
 
@@ -62,8 +62,19 @@ nix-config/
 │   │   └── dconf.nix      # GNOME dconf settings
 │   ├── programs/          # User applications (shared)
 │   │   ├── default.nix    # Program imports
+│   │   ├── fish.nix       # Fish shell configuration
+│   │   ├── starship.nix   # Starship prompt
+│   │   ├── ghostty.nix    # Ghostty terminal
+│   │   ├── atuin.nix      # Shell history (Atuin)
+│   │   ├── bat.nix        # bat (cat replacement)
+│   │   ├── btop.nix       # System monitor
+│   │   ├── eza.nix        # eza (ls replacement)
+│   │   ├── fastfetch.nix  # System info
+│   │   ├── fzf.nix        # Fuzzy finder
+│   │   ├── yazi.nix       # File manager
+│   │   ├── zoxide.nix     # Smart cd
 │   │   ├── direnv.nix     # direnv integration
-│   │   ├── looking-glass.nix # Looking Glass client
+│   │   ├── git.nix        # Git configuration
 │   │   └── packages.nix   # User packages
 │   ├── themes/            # Theming
 │   │   └── stylix.nix     # Stylix configuration
@@ -168,9 +179,12 @@ nix flake check
 - **Command Runner**: Just for simplified workflow
 
 ### User Environment
-- **Shell**: Fish with custom configuration
+- **Shell**: Fish with Starship prompt, Atuin history, zoxide, fzf
+- **Terminal**: Ghostty with Fish integration and Stylix theming
 - **Browser**: Zen browser with MIME associations
+- **File Manager**: Yazi terminal file manager
 - **Development**: direnv with nix-direnv, VSCode, Node.js 22
+- **CLI Tools**: bat, eza, btop, fastfetch
 - **Productivity**: GIMP, Inkscape, Bitwarden, Firefox
 - **Media**: Spotify, Telegram, ffmpeg
 - **Theming**: Stylix for consistent application themes
@@ -214,6 +228,7 @@ This configuration is provided as-is for educational and personal use. Feel free
 
 ## 🙏 Acknowledgments
 
+- [Bluefin OS](https://projectbluefin.io/) for the inspiration — its opinionated, batteries-included desktop philosophy shaped this config
 - [NixOS Community](https://nixos.org/community/) for the amazing ecosystem
 - [Home Manager](https://github.com/nix-community/home-manager) for user environment management
 - [Stylix](https://github.com/danth/stylix) for beautiful system theming
