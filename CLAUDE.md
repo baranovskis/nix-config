@@ -229,8 +229,8 @@ Shared user configuration across all hosts:
 **Note:** Host-specific user packages (like gaming apps) should be added directly to host configuration files (e.g., `hosts/erebor/gaming.nix`) rather than creating separate home-manager modules per host.
 
 ### Custom Packages (`pkgs/`)
-- `citron-emu/package.nix`: Custom emulator package
-- Packages are exposed via overlays
+- Currently empty — add custom packages here as needed
+- Packages are auto-discovered and exposed via overlays
 
 ### Overlays (`overlays/`)
 - `default.nix`: Package overlays and modifications

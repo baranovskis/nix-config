@@ -82,7 +82,6 @@ nix-config/
 │   │   └── packages.nix   # User packages
 │   └── wallpapers/        # System wallpapers
 ├── pkgs/                  # Custom package definitions
-│   └── citron-emu/        # Custom emulator package
 ├── overlays/              # Package modifications
 │   └── default.nix        # Package overlays
 └── Justfile               # Command shortcuts (just system, just user, just clean)
