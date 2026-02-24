@@ -27,17 +27,14 @@ nix-config/
 ├── hosts/                 # Host-specific configurations
 │   └── erebor/            # Desktop machine config
 │       ├── default.nix    # Host settings, boot loader, kernel
-│       ├── hardware.nix   # Auto-detected hardware config
-│       ├── graphics.nix   # GPU configuration (OpenGL/Vulkan)
-│       ├── nvidia.nix     # NVIDIA drivers & kernel params
-│       ├── radeon.nix     # AMD Radeon & VFIO scripts
-│       ├── vfio.nix       # GPU passthrough & Looking Glass
-│       └── gaming.nix     # Gaming (Steam, Wine, Lutris, Heroic)
+│       └── hardware.nix   # Auto-detected hardware config
 ├── common/                # Shared system configuration
 │   ├── default.nix        # System config entry point
+│   ├── ai.nix             # AI tools
 │   ├── audio.nix          # Audio/PipeWire
 │   ├── bluetooth.nix      # Bluetooth
 │   ├── docker.nix         # Docker containerization
+│   ├── flatpak.nix        # Flatpak & Flathub
 │   ├── gc.nix             # Garbage collection
 │   ├── gnome.nix          # GNOME desktop
 │   ├── gnupg.nix          # GnuPG
@@ -53,13 +50,20 @@ nix-config/
 │   ├── shell.nix          # Fish shell
 │   ├── solaar.nix         # Logitech devices
 │   ├── ssh.nix            # SSH configuration
+│   ├── sunshine.nix       # Sunshine streaming
 │   ├── user.nix           # User accounts
-│   └── virtualization.nix # QEMU/KVM/libvirt
+│   ├── virtualization.nix # QEMU/KVM/libvirt
+│   └── zen-browser.nix    # Zen Browser
 ├── home-manager/          # User environment configuration
 │   ├── default.nix        # Home-manager entry point
-│   ├── config/            # Desktop configs
+│   ├── config/            # Desktop & theme configs
 │   │   ├── default.nix    # Config imports
-│   │   └── dconf.nix      # GNOME dconf settings
+│   │   ├── dconf.nix      # GNOME dconf settings
+│   │   └── stylix.nix     # Stylix theme & fonts
+│   ├── hosts/             # Host-specific user config
+│   │   └── erebor.nix     # Erebor user settings
+│   ├── modules/           # Custom home-manager modules
+│   │   └── nautilus.nix   # Nautilus file manager
 │   ├── programs/          # User applications (shared)
 │   │   ├── default.nix    # Program imports
 │   │   ├── fish.nix       # Fish shell configuration
@@ -76,8 +80,6 @@ nix-config/
 │   │   ├── direnv.nix     # direnv integration
 │   │   ├── git.nix        # Git configuration
 │   │   └── packages.nix   # User packages
-│   ├── themes/            # Theming
-│   │   └── stylix.nix     # Stylix configuration
 │   └── wallpapers/        # System wallpapers
 ├── pkgs/                  # Custom package definitions
 │   └── citron-emu/        # Custom emulator package
