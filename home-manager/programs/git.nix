@@ -6,7 +6,6 @@
       email = "info@baranovskis.dev";
     };
 
-    # Delta — syntax-highlighted git diffs
     delta = {
       enable = true;
       options = {

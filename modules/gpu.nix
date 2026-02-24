@@ -1,7 +1,3 @@
-# Base graphics — OpenGL and Vulkan support
-#
-# GPU drivers (NVIDIA, AMD) and passthrough config are host-specific
-# and live directly in hosts/<hostname>/default.nix.
 {
   config,
   lib,
@@ -11,7 +7,7 @@
   cfg = config.modules.gpu;
 in {
   options.modules.gpu = {
-    enable = lib.mkEnableOption "base graphics support (OpenGL, Vulkan, 32-bit)";
+    enable = lib.mkEnableOption "base graphics support";
   };
 
   config = lib.mkIf cfg.enable {

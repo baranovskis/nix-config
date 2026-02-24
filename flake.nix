@@ -2,33 +2,27 @@
   description = "Baranovskis Flake";
 
   inputs = {
-    # NixOS
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Theming
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Misc Packages
     solaar = {
       url = "github:Svenum/solaar-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
-    # Zen Browser
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,17 +35,21 @@
     home-manager,
     ...
   } @ inputs: let
-    username = "baranovskis"; # Username for configurations
+    username = "baranovskis";
     inherit (self) outputs;
+
+    mkHome = extraModules:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {
+          inherit inputs outputs username;
+        };
+        modules = [./home-manager] ++ extraModules;
+      };
   in {
-    # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
 
-    # NixOS configuration entrypoint
-    # Per-host configurations
     nixosConfigurations = {
-      # Erebor (Desktop) configuration
-      # sudo nixos-rebuild switch --flake .#erebor
       erebor = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs username;
@@ -63,19 +61,17 @@
         ];
       };
 
-      # Aliases for convenience
       desktop = self.nixosConfigurations.erebor;
       nixos = self.nixosConfigurations.erebor;
     };
 
-    # Standalone home-manager configuration entrypoint
-    # home-manager switch --flake .
-    homeConfigurations.baranovskis = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = {
-        inherit inputs outputs username;
-      };
-      modules = [ ./home-manager ];
+    # Per-host home configs: home-manager switch --flake .
+    # Matches "username@hostname" automatically
+    homeConfigurations = {
+      "${username}@erebor" = mkHome [./home-manager/hosts/erebor.nix];
+
+      # Fallback (no host-specific config)
+      ${username} = mkHome [];
     };
   };
 }

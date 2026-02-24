@@ -1,7 +1,4 @@
-# Erebor — Desktop workstation (The Lonely Mountain)
-#
-# Host-specific hardware config lives here directly.
-# Shared modules (gpu, gaming, zfs) are imported from modules/.
+# Erebor — Desktop workstation
 {
   config,
   pkgs,
@@ -10,18 +7,14 @@
 }: {
   imports = [
     ./hardware.nix
-
-    # Shared modules (reusable across hosts)
     ../../modules/gpu.nix
     ../../modules/gaming.nix
     ../../modules/zfs.nix
   ];
 
-  # ── Host identity ──────────────────────────────────────
   networking.hostName = "erebor";
 
-  # ── Shared modules ─────────────────────────────────────
-
+  # Modules
   modules.gpu.enable = true;
   modules.gaming.enable = true;
 
@@ -31,8 +24,7 @@
     pools = ["tank"];
   };
 
-  # ── GPU: NVIDIA RTX 4060 (primary) ────────────────────
-
+  # NVIDIA RTX 4060
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
@@ -44,8 +36,7 @@
 
   hardware.nvidia-container-toolkit.enable = true;
 
-  # ── VFIO GPU passthrough + Looking Glass ───────────────
-
+  # VFIO + Looking Glass
   virtualisation.libvirtd.qemu.verbatimConfig = ''
     cgroup_device_acl = [
       "/dev/null", "/dev/full", "/dev/zero",
@@ -59,8 +50,7 @@
     looking-glass-client
   ];
 
-  # ── Restic backup to ZFS pool ──────────────────────────
-
+  # Restic backup
   services.restic.backups.daily = {
     initialize = true;
     repository = "/tank/backups";
@@ -98,8 +88,7 @@
     ];
   };
 
-  # ── Boot configuration ─────────────────────────────────
-
+  # Boot
   boot = {
     kernelPackages = pkgs.linuxPackages_6_12;
     extraModulePackages = [config.boot.kernelPackages.kvmfr];
@@ -107,38 +96,32 @@
     initrd = {
       verbose = false;
       kernelModules = [
-        # VFIO
         "vfio_pci"
         "vfio"
         "vfio_iommu_type1"
-        # Looking Glass
         "kvmfr"
       ];
     };
 
     kernelParams = [
-      # Boot
       "acpi_rev_override=1"
       "quiet"
       "loglevel=3"
       "systemd.show_status=auto"
       "rd.udev.log_level=3"
 
-      # NVIDIA Wayland
       "nvidia-drm.fbdev=1"
 
-      # AMD Radeon WX 5100 — bind to VFIO for VM passthrough
+      # Radeon WX 5100 VFIO passthrough
       "vfio-pci.ids=1002:67c7,1002:aaf0"
 
-      # IOMMU (Intel CPU)
+      # IOMMU
       "intel_iommu=on"
       "iommu=pt"
-
-      # VFIO
       "rd.driver.pre=vfio_pci"
       "vfio_pci.disable_vga=1"
 
-      # KVM optimizations
+      # KVM
       "kvm.ignore_msrs=1"
       "kvm.report_ignored_msrs=0"
 
@@ -159,18 +142,16 @@
     };
   };
 
-  # ── Udev rules ─────────────────────────────────────────
-
+  # Udev
   services.udev.extraRules = ''
-    # Radeon WX 5100 — runtime PM for power savings when idle
+    # Radeon WX 5100 power management
     ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x67c7", ATTR{power/control}="auto"
     ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0xaaf0", ATTR{power/control}="auto"
 
-    # Looking Glass kvmfr device
+    # Looking Glass kvmfr
     SUBSYSTEM=="kvmfr", GROUP="kvm", MODE="0660"
   '';
 
-  # ── Host-specific services ─────────────────────────────
   services.gvfs.enable = true;
   time.hardwareClockInLocalTime = true;
 }

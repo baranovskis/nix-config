@@ -1,30 +1,26 @@
-# Packages without dedicated home-manager modules
-#
-# Programs that have home-manager modules (bat, eza, git, yazi, etc.)
-# live in their own files. This file is for raw packages only.
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # Media (CLI tools — GUI media apps live in Flatpak)
+    # Media
     ffmpeg
     imagemagick
 
-    # Productivity (Nix-only — not available or unsuitable for Flatpak)
+    # Productivity
     realesrgan-ncnn-vulkan
     eloquent
 
-    # Development (GUI IDEs live in Flatpak — see common/flatpak.nix)
+    # Development
     nodejs_22
     python3
     claude-code
 
-    # Modern CLI tools (no home-manager modules — just packages)
-    fd # find replacement
-    ripgrep # grep replacement
-    dust # du replacement
-    duf # df replacement
-    procs # ps replacement
-    sd # sed replacement
-    tealdeer # tldr pages
+    # CLI tools
+    fd
+    ripgrep
+    dust
+    duf
+    procs
+    sd
+    tealdeer
 
     # Fonts
     corefonts

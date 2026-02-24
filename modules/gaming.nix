@@ -1,5 +1,3 @@
-# Gaming — Steam, gamemode, Proton
-# Game launchers (Lutris, Heroic, Bottles) live in Flatpak (see common/flatpak.nix)
 {
   config,
   lib,
@@ -10,7 +8,7 @@
   cfg = config.modules.gaming;
 in {
   options.modules.gaming = {
-    enable = lib.mkEnableOption "gaming support (Steam, gamemode, Proton)";
+    enable = lib.mkEnableOption "gaming support";
   };
 
   config = lib.mkIf cfg.enable {

@@ -1,26 +1,30 @@
-# Show available commands
+# 🏔️ Erebor — NixOS Configuration
+# https://github.com/baranovskis/nix-config
+
 default:
     @just --list
 
-# ── System ───────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────
+# 🖥️  System
+# ──────────────────────────────────────────────────────────
 
-# Build and switch system configuration
+# 🔨 Build and switch system configuration
 system:
     sudo nixos-rebuild switch --flake .#erebor
 
-# Build and switch home-manager configuration
+# 🏠 Build and switch home-manager configuration
 user:
     home-manager switch --flake . -b backup
 
-# Update flake inputs to latest versions
+# 📦 Update all flake inputs
 update:
     nix flake update
 
-# Show what changed between current and previous generation
+# 📋 Show diff between current and previous generation
 changelogs:
     nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -2 | head -1) /nix/var/nix/profiles/system
 
-# Clean old generations, unused containers, and flatpak runtimes
+# 🧹 Clean old generations, containers, and flatpak runtimes
 clean:
     sudo nix-collect-garbage --delete-older-than 7d
     home-manager expire-generations "-7 days"
@@ -28,34 +32,38 @@ clean:
     podman system prune -f
     flatpak uninstall --unused -y
 
-# Reboot into BIOS/UEFI firmware setup
+# ⚙️  Reboot into BIOS/UEFI firmware setup
 bios:
     systemctl reboot --firmware-setup
 
-# ── Containers ───────────────────────────────────────────
+# ──────────────────────────────────────────────────────────
+# 📦 Containers
+# ──────────────────────────────────────────────────────────
 
-# Create a new Distrobox container (default: Fedora)
+# 🆕 Create a new Distrobox container
 distrobox-create name="fedora" image="registry.fedoraproject.org/fedora-toolbox:latest":
     distrobox create --name {{name}} --image {{image}}
 
-# Enter a Distrobox container
+# 🚪 Enter a Distrobox container
 distrobox-enter name="fedora":
     distrobox enter {{name}}
 
-# ── Backup ───────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────
+# 💾 Backup
+# ──────────────────────────────────────────────────────────
 
-# Run backup now
+# ▶️  Run backup now
 backup:
     sudo systemctl start restic-backups-daily && sudo journalctl -fu restic-backups-daily
 
-# Check backup status
+# 📊 Check backup status
 backup-status:
     sudo systemctl status restic-backups-daily
 
-# List backup snapshots
+# 📑 List backup snapshots
 backup-list:
     sudo restic -r /tank/backups --password-file /etc/restic-password snapshots
 
-# Restore latest backup to specified directory
+# 🔄 Restore latest backup to target directory
 backup-restore target="/tmp/restore":
     sudo restic -r /tank/backups --password-file /etc/restic-password restore latest --target {{target}}

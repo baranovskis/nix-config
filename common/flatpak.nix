@@ -1,10 +1,3 @@
-# Flatpak-first: GUI applications managed declaratively through Flathub
-#
-# Hybrid design — each layer has a clear responsibility:
-#   Nix (system)       → kernel, drivers, services, desktop shell
-#   Nix (home-manager) → CLI tools, dev tools, shell config, fonts
-#   Flatpak            → GUI applications (sandboxed, independent lifecycle)
-#   Containers         → development environments (isolated, reproducible)
 {...}: {
   services.flatpak.enable = true;
 
@@ -15,23 +8,20 @@
     }
   ];
 
-  # Update flatpaks on system activation
   services.flatpak.update.onActivation = true;
 
-  # Automatic updates every 6 hours (Bluefin default frequency)
   services.flatpak.update.auto = {
     enable = true;
     onCalendar = "*-*-* 0/6:00:00";
   };
 
-  # Declarative Flatpak packages — all GUI applications live here
   services.flatpak.packages = [
-    # App Store & Flatpak Management
-    "io.github.kolunmi.Bazaar" # Curated Flathub storefront
-    "com.github.tchx84.Flatseal" # Flatpak permissions manager
-    "io.github.flattool.Warehouse" # Flatpak management (pin, rollback, bulk ops)
+    # Flatpak management
+    "io.github.kolunmi.Bazaar"
+    "com.github.tchx84.Flatseal"
+    "io.github.flattool.Warehouse"
 
-    # GNOME Extensions
+    # GNOME
     "com.mattjakeman.ExtensionManager"
 
     # Communication
@@ -40,7 +30,7 @@
     # Security
     "com.bitwarden.desktop"
 
-    # Media & Creative
+    # Media
     "com.spotify.Client"
     "org.gimp.GIMP"
     "org.inkscape.Inkscape"
@@ -48,23 +38,21 @@
     # Productivity
     "org.remmina.Remmina"
 
-    # System Monitoring
+    # System
     "io.missioncenter.MissionCenter"
 
-    # Gaming (Bluefin recommends gaming apps from Flathub)
+    # Gaming
     "net.lutris.Lutris"
     "com.heroicgameslauncher.hgl"
     "com.usebottles.bottles"
 
-    # AI (Bluefin ships Alpaca for local LLM chat)
+    # AI
     "com.jeffser.Alpaca"
 
-    # Development (GUI IDEs — CLI dev tools stay in Nix)
+    # Development
     "dev.zed.Zed"
     "com.jetbrains.Toolbox"
   ];
 
-  # Set to true to enforce fully declarative Flatpak management
-  # (removes any manually installed Flatpaks not listed above)
   # services.flatpak.uninstallUnmanaged = true;
 }

@@ -1,4 +1,3 @@
-# ZFS filesystem support — parameterized for any host
 {
   config,
   lib,
@@ -13,7 +12,7 @@ in {
     hostId = lib.mkOption {
       type = lib.types.str;
       example = "afeb27ee";
-      description = "Unique host ID required by ZFS (8-character hex string)";
+      description = "Unique host ID required by ZFS";
     };
 
     pools = lib.mkOption {
@@ -36,7 +35,7 @@ in {
 
     networking.hostId = cfg.hostId;
 
-    # Disable deprecated udev-settle service that causes 2min boot delay
+    # Workaround: udev-settle causes 2min boot delay
     systemd.services.systemd-udev-settle.enable = false;
 
     services.zfs.autoScrub = {
