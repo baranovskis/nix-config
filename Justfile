@@ -2,22 +2,47 @@
 default:
     @just --list
 
-# Build system configuration
+# ── System ───────────────────────────────────────────────
+
+# Build and switch system configuration
 system:
     sudo nixos-rebuild switch --flake .#erebor
 
-# Build home-manager configuration
+# Build and switch home-manager configuration
 user:
     home-manager switch --flake . -b backup
 
-# Update flake inputs
+# Update flake inputs to latest versions
 update:
     nix flake update
 
-# Clean old generations
+# Show what changed between current and previous generation
+changelogs:
+    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -2 | head -1) /nix/var/nix/profiles/system
+
+# Clean old generations, unused containers, and flatpak runtimes
 clean:
     sudo nix-collect-garbage --delete-older-than 7d
     home-manager expire-generations "-7 days"
+    sudo docker system prune -f
+    podman system prune -f
+    flatpak uninstall --unused -y
+
+# Reboot into BIOS/UEFI firmware setup
+bios:
+    systemctl reboot --firmware-setup
+
+# ── Containers ───────────────────────────────────────────
+
+# Create a new Distrobox container (default: Fedora)
+distrobox-create name="fedora" image="registry.fedoraproject.org/fedora-toolbox:latest":
+    distrobox create --name {{name}} --image {{image}}
+
+# Enter a Distrobox container
+distrobox-enter name="fedora":
+    distrobox enter {{name}}
+
+# ── Backup ───────────────────────────────────────────────
 
 # Run backup now
 backup:

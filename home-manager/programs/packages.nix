@@ -23,6 +23,8 @@
     procs # ps replacement
     sd # sed replacement
     tealdeer # tldr pages
+    delta # git diff viewer
+    yazi # TUI file manager
 
     # Fonts
     corefonts

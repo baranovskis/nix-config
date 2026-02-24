@@ -1,6 +1,6 @@
 # Modern shell experience — Bluefin-inspired CLI with Fish
 #
-# Uses home-manager program modules for tools that have them (eza, zoxide, bat, btop).
+# Uses home-manager program modules for tools that have them (eza, zoxide, bat, btop, fzf, atuin).
 # These modules handle shell integration automatically.
 # Shell abbreviations cover the rest (fd, rg, dust, duf, procs).
 {...}: {
@@ -39,6 +39,19 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
+  };
+
+  # Fuzzy finder — Ctrl+R for history, Ctrl+T for files, Alt+C for cd
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  # Shell history search and sync (Bluefin ships Atuin)
+  programs.atuin = {
+    enable = true;
+    enableFishIntegration = true;
+    flags = [ "--disable-up-arrow" ]; # Don't override up arrow, use Ctrl+R
   };
 
   # Better cat with syntax highlighting

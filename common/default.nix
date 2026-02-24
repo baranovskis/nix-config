@@ -15,6 +15,7 @@
     ./zen-browser.nix
 
     # Development & Services
+    ./ai.nix
     ./docker.nix
     ./flatpak.nix
     ./nfs.nix

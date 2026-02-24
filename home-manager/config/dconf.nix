@@ -113,7 +113,7 @@
     "org/gnome/shell" = {
       disable-user-extensions = false;
       disabled-extensions = [ "ding@rastersoft.com" ];
-      enabled-extensions = [ "AlphabeticalAppGrid@stuarthayhurst" "appindicatorsupport@rgcjonas.gmail.com" "auto-accent-colour@Wartybix" "blur-my-shell@aunetx" "color-picker@tuberry" "dash-in-panel@fthx" "solaar-extension@sidevesh" "undecorate@sun.wxg@gmail.com" "user-theme@gnome-shell-extensions.gcampax.github.com" "Vitals@CoreCoding.com" "caffeine@patapon.info" "logomenu@aryan_k" "pop-shell@system76.com" "just-perfection-desktop@just-perfection" ];
+      enabled-extensions = [ "AlphabeticalAppGrid@stuarthayhurst" "appindicatorsupport@rgcjonas.gmail.com" "auto-accent-colour@Wartybix" "blur-my-shell@aunetx" "color-picker@tuberry" "dash-in-panel@fthx" "gsconnect@andyholmes.github.io" "solaar-extension@sidevesh" "undecorate@sun.wxg@gmail.com" "user-theme@gnome-shell-extensions.gcampax.github.com" "Vitals@CoreCoding.com" "caffeine@patapon.info" "logomenu@aryan_k" "pop-shell@system76.com" "just-perfection-desktop@just-perfection" ];
       favorite-apps = [ "org.gnome.Nautilus.desktop" "org.telegram.desktop.desktop" "org.gnome.Console.desktop" ];
       last-selected-power-profile = "performance";
       welcome-dialog-last-shown-version = "48.4";

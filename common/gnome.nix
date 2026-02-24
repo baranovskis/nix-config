@@ -70,6 +70,7 @@
     gnomeExtensions.appindicator
     gnomeExtensions.auto-accent-colour
     gnomeExtensions.blur-my-shell
+    gnomeExtensions.gsconnect # Mobile device integration (KDE Connect protocol)
     gnomeExtensions.color-picker
     gnomeExtensions.dash-in-panel
     gnomeExtensions.just-perfection

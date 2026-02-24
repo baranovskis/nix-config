@@ -8,7 +8,6 @@
 {...}: {
   services.flatpak.enable = true;
 
-  # Remotes - Flathub is added by default, but explicit is clearer
   services.flatpak.remotes = [
     {
       name = "flathub";
@@ -19,10 +18,10 @@
   # Update flatpaks on system activation
   services.flatpak.update.onActivation = true;
 
-  # Automatic weekly updates via systemd timer
+  # Automatic updates every 6 hours (Bluefin default frequency)
   services.flatpak.update.auto = {
     enable = true;
-    onCalendar = "weekly";
+    onCalendar = "*-*-* 0/6:00:00";
   };
 
   # Declarative Flatpak packages — all GUI applications live here
@@ -48,6 +47,17 @@
 
     # Productivity
     "org.remmina.Remmina"
+
+    # System Monitoring
+    "io.missioncenter.MissionCenter"
+
+    # Gaming (Bluefin recommends gaming apps from Flathub)
+    "net.lutris.Lutris"
+    "com.heroicgameslauncher.hgl"
+    "com.usebottles.bottles"
+
+    # AI (Bluefin ships Alpaca for local LLM chat)
+    "com.jeffser.Alpaca"
   ];
 
   # Set to true to enforce fully declarative Flatpak management
