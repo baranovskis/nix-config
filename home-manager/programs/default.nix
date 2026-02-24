@@ -18,7 +18,7 @@
     ./direnv.nix
     ./git.nix
 
-    # Hardware-specific
+    # Host-specific (erebor only — harmless on other hosts)
     ./looking-glass.nix
 
     # Raw packages (no home-manager modules)

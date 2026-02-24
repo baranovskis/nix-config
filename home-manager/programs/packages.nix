@@ -12,9 +12,7 @@
     realesrgan-ncnn-vulkan
     eloquent
 
-    # Development
-    zed-editor
-    jetbrains-toolbox
+    # Development (GUI IDEs live in Flatpak — see common/flatpak.nix)
     nodejs_22
     python3
     claude-code

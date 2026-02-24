@@ -63,30 +63,9 @@
         ];
       };
 
-      # Alias configurations for convenience
-      desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs username;
-        };
-        modules = [
-          inputs.nix-flatpak.nixosModules.nix-flatpak
-          ./common
-          ./hosts/erebor
-        ];
-      };
-
-      # Default configuration (points to erebor for backward compatibility)
-      # sudo nixos-rebuild switch --flake .
-      nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs username;
-        };
-        modules = [
-          inputs.nix-flatpak.nixosModules.nix-flatpak
-          ./common
-          ./hosts/erebor
-        ];
-      };
+      # Aliases for convenience
+      desktop = self.nixosConfigurations.erebor;
+      nixos = self.nixosConfigurations.erebor;
     };
 
     # Standalone home-manager configuration entrypoint

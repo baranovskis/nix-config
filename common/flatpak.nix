@@ -58,6 +58,10 @@
 
     # AI (Bluefin ships Alpaca for local LLM chat)
     "com.jeffser.Alpaca"
+
+    # Development (GUI IDEs — CLI dev tools stay in Nix)
+    "dev.zed.Zed"
+    "com.jetbrains.Toolbox"
   ];
 
   # Set to true to enforce fully declarative Flatpak management
