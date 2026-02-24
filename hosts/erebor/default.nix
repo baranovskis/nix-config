@@ -1,7 +1,8 @@
-# Desktop host configuration
+# Erebor — Desktop workstation (The Lonely Mountain)
+#
+# This file only contains host-specific settings and module parameters.
+# All reusable logic lives in modules/.
 {
-  config,
-  lib,
   pkgs,
   ...
 }: {
@@ -20,14 +21,63 @@
     ../../modules/backup.nix
   ];
 
-  # Host-specific configuration
+  # ── Host identity ──────────────────────────────────────
   networking.hostName = "erebor";
 
-  # Boot configuration
+  # ── Module parameters ──────────────────────────────────
+
+  # GPU: NVIDIA RTX 4060 (primary) + AMD Radeon WX 5100 (passthrough)
+  modules.gpu.enable = true;
+
+  modules.gpu.nvidia = {
+    enable = true;
+    open = true;
+    containerToolkit = true; # GPU access in Docker/Podman
+  };
+
+  modules.gpu.radeon = {
+    enable = true;
+    pciIds = "1002:67c7,1002:aaf0"; # Radeon Pro WX 5100
+    powerManagement = [
+      {vendor = "0x1002"; device = "0x67c7";}
+      {vendor = "0x1002"; device = "0xaaf0";}
+    ];
+  };
+
+  modules.gpu.vfio = {
+    enable = true;
+    iommuType = "intel";
+    lookingGlass = {
+      enable = true;
+      sizeMB = 128;
+    };
+  };
+
+  # Gaming
+  modules.gaming.enable = true;
+
+  # Storage: ZFS pool "tank"
+  modules.zfs = {
+    enable = true;
+    hostId = "afeb27ee";
+    pools = ["tank"];
+  };
+
+  # Backup: Restic to ZFS pool
+  modules.backup = {
+    enable = true;
+    repository = "/tank/backups";
+    passwordFile = "/etc/restic-password";
+    paths = [
+      "/home/baranovskis"
+      "/home/baranovskis/Development/nix-config"
+    ];
+  };
+
+  # ── Boot configuration ─────────────────────────────────
   boot = {
     kernelPackages = pkgs.linuxPackages_6_12;
 
-    # Hardware-specific kernel parameters
     kernelParams = [
       "acpi_rev_override=1"
       "quiet"
@@ -36,11 +86,9 @@
       "rd.udev.log_level=3"
     ];
 
-    # Suppress boot messages for clean boot experience
     consoleLogLevel = 0;
     initrd.verbose = false;
 
-    # Plymouth for graphical boot splash
     plymouth.enable = true;
 
     loader = {
@@ -53,9 +101,7 @@
     };
   };
 
-  # Browsing samba shares with GVFS
+  # ── Host-specific services ─────────────────────────────
   services.gvfs.enable = true;
-
-  # Windows dual-boot time fix
   time.hardwareClockInLocalTime = true;
 }

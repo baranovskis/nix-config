@@ -1,60 +1,82 @@
+# VFIO GPU passthrough + Looking Glass — parameterized for any CPU/config
 {
+  config,
   lib,
   pkgs,
-  config,
-  username,
   ...
-}:
-{
-  # VFIO and GPU Passthrough Configuration
-  boot = {
-    extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
+}: let
+  cfg = config.modules.gpu.vfio;
+in {
+  options.modules.gpu.vfio = {
+    enable = lib.mkEnableOption "VFIO GPU passthrough";
 
-    initrd.kernelModules = [
-      "vfio_pci"
-      "vfio"
-      "vfio_iommu_type1"
+    iommuType = lib.mkOption {
+      type = lib.types.enum ["intel" "amd"];
+      example = "intel";
+      description = "CPU vendor for IOMMU (determines intel_iommu vs amd_iommu kernel param)";
+    };
 
-      # Looking Glass module
-      "kvmfr"
-    ];
+    lookingGlass = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Enable Looking Glass shared memory for near-native VM display";
+      };
 
-    kernelParams = [
-      # IOMMU settings based on CPU vendor
-      "intel_iommu=on"
-      "iommu=pt"
-
-      "rd.driver.pre=vfio_pci"
-      "vfio_pci.disable_vga=1"
-
-      # KVM optimizations
-      "kvm.ignore_msrs=1"
-      "kvm.report_ignored_msrs=0"
-
-      # Looking Glass settings
-      "kvmfr.static_size_mb=128"
-    ];
+      sizeMB = lib.mkOption {
+        type = lib.types.int;
+        default = 128;
+        description = "KVMFR shared memory size in MB (depends on guest resolution)";
+      };
+    };
   };
 
-  # QEMU configuration for VFIO
-  virtualisation.libvirtd.qemu.verbatimConfig = ''
-    cgroup_device_acl = [
-      "/dev/null", "/dev/full", "/dev/zero",
-      "/dev/random", "/dev/urandom",
-      "/dev/ptmx", "/dev/kvm",
-      "/dev/kvmfr0"
-    ]
-  '';
+  config = lib.mkIf cfg.enable {
+    boot = {
+      extraModulePackages =
+        lib.optional cfg.lookingGlass.enable config.boot.kernelPackages.kvmfr;
 
-  # Looking Glass udev rules
-  # Note: OWNER cannot be set to a non-system user in udev
-  # We use GROUP="kvm" with MODE="0660" and ensure user is in kvm group
-  services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", GROUP="kvm", MODE="0660"
-  '';
+      initrd.kernelModules =
+        [
+          "vfio_pci"
+          "vfio"
+          "vfio_iommu_type1"
+        ]
+        ++ lib.optional cfg.lookingGlass.enable "kvmfr";
 
-  # Looking Glass client
-  environment.systemPackages = with pkgs; [
-    looking-glass-client
-  ];
+      kernelParams =
+        [
+          # IOMMU settings based on CPU vendor
+          "${cfg.iommuType}_iommu=on"
+          "iommu=pt"
+
+          "rd.driver.pre=vfio_pci"
+          "vfio_pci.disable_vga=1"
+
+          # KVM optimizations
+          "kvm.ignore_msrs=1"
+          "kvm.report_ignored_msrs=0"
+        ]
+        ++ lib.optional cfg.lookingGlass.enable
+        "kvmfr.static_size_mb=${toString cfg.lookingGlass.sizeMB}";
+    };
+
+    # QEMU configuration for VFIO
+    virtualisation.libvirtd.qemu.verbatimConfig = ''
+      cgroup_device_acl = [
+        "/dev/null", "/dev/full", "/dev/zero",
+        "/dev/random", "/dev/urandom",
+        "/dev/ptmx", "/dev/kvm"${lib.optionalString cfg.lookingGlass.enable '',
+        "/dev/kvmfr0"''}
+      ]
+    '';
+
+    # Looking Glass udev rules
+    services.udev.extraRules = lib.mkIf cfg.lookingGlass.enable ''
+      SUBSYSTEM=="kvmfr", GROUP="kvm", MODE="0660"
+    '';
+
+    environment.systemPackages =
+      lib.optional cfg.lookingGlass.enable pkgs.looking-glass-client;
+  };
 }

@@ -1,24 +1,54 @@
-{pkgs, ...}: {
-  # Enable ZFS support
-  boot.supportedFilesystems = ["zfs"];
-  boot.zfs.forceImportRoot = false;
+# ZFS filesystem support — parameterized for any host
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.modules.zfs;
+in {
+  options.modules.zfs = {
+    enable = lib.mkEnableOption "ZFS filesystem support";
 
-  # Required: Unique host ID for ZFS
-  networking.hostId = "afeb27ee";
+    hostId = lib.mkOption {
+      type = lib.types.str;
+      example = "afeb27ee";
+      description = "Unique host ID required by ZFS (8-character hex string)";
+    };
 
-  # Disable deprecated udev-settle service that causes 2min boot delay
-  systemd.services.systemd-udev-settle.enable = false;
+    pools = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      example = ["tank"];
+      description = "ZFS pools to auto-import at boot";
+    };
 
-  # ZFS services
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoScrub.interval = "monthly";
-  services.zfs.autoSnapshot.enable = true;
+    scrubInterval = lib.mkOption {
+      type = lib.types.str;
+      default = "monthly";
+      description = "How often to scrub ZFS pools";
+    };
+  };
 
-  # Auto-import ZFS pools at boot
-  boot.zfs.extraPools = ["tank"];
+  config = lib.mkIf cfg.enable {
+    boot.supportedFilesystems = ["zfs"];
+    boot.zfs.forceImportRoot = false;
 
-  # ZFS packages
-  environment.systemPackages = with pkgs; [
-    zfs
-  ];
+    networking.hostId = cfg.hostId;
+
+    # Disable deprecated udev-settle service that causes 2min boot delay
+    systemd.services.systemd-udev-settle.enable = false;
+
+    services.zfs.autoScrub = {
+      enable = true;
+      interval = cfg.scrubInterval;
+    };
+    services.zfs.autoSnapshot.enable = true;
+
+    boot.zfs.extraPools = cfg.pools;
+
+    environment.systemPackages = with pkgs; [
+      zfs
+    ];
+  };
 }

@@ -1,26 +1,36 @@
-{ pkgs, username, ... }:
+# Gaming — Steam, gamemode, Proton
+# Game launchers (Lutris, Heroic, Bottles) live in Flatpak (see common/flatpak.nix)
 {
-  # Gaming configuration for erebor
-  # System services stay in Nix (need kernel/driver integration)
-  # Game launchers live in Flatpak (see common/flatpak.nix)
-
-  # System-level gaming services
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    extraCompatPackages = with pkgs; [
-      proton-ge-bin
-    ];
+  config,
+  lib,
+  pkgs,
+  username,
+  ...
+}: let
+  cfg = config.modules.gaming;
+in {
+  options.modules.gaming = {
+    enable = lib.mkEnableOption "gaming support (Steam, gamemode, Proton)";
   };
 
-  programs.gamemode.enable = true;
+  config = lib.mkIf cfg.enable {
+    programs.steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      extraCompatPackages = with pkgs; [
+        proton-ge-bin
+      ];
+    };
 
-  environment.systemPackages = with pkgs; [
-    gamemode
-  ];
+    programs.gamemode.enable = true;
 
-  users.users.${username} = {
-    extraGroups = [ "gamemode" ];
+    environment.systemPackages = with pkgs; [
+      gamemode
+    ];
+
+    users.users.${username} = {
+      extraGroups = ["gamemode"];
+    };
   };
 }

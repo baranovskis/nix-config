@@ -1,29 +1,42 @@
+# NVIDIA proprietary drivers — parameterized options
 {
   config,
   lib,
-  pkgs,
-  username,
   ...
-}:
-{
-  # NVIDIA kernel parameters
-  boot.kernelParams = [
-    # Since NVIDIA does not load kernel mode setting by default,
-    # enabling it is required to make Wayland compositors function properly.
-    "nvidia-drm.fbdev=1"
-  ];
+}: let
+  cfg = config.modules.gpu.nvidia;
+in {
+  options.modules.gpu.nvidia = {
+    enable = lib.mkEnableOption "NVIDIA proprietary GPU drivers";
 
-  # GPU drivers configuration
-  services.xserver.videoDrivers = [ "nvidia" ];
+    open = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Use NVIDIA open-source kernel modules (recommended for Turing+)";
+    };
 
-  # NVIDIA RTX 4060 Configuration
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    open = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    containerToolkit = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable NVIDIA container toolkit for GPU access in Docker/Podman";
+    };
   };
 
-  # Enable NVIDIA GPU support in Docker
-  hardware.nvidia-container-toolkit.enable = true;
+  config = lib.mkIf cfg.enable {
+    boot.kernelParams = [
+      # Required for Wayland compositors with NVIDIA
+      "nvidia-drm.fbdev=1"
+    ];
+
+    services.xserver.videoDrivers = ["nvidia"];
+
+    hardware.nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      open = cfg.open;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
+    };
+
+    hardware.nvidia-container-toolkit.enable = cfg.containerToolkit;
+  };
 }

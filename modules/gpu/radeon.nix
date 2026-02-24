@@ -1,23 +1,49 @@
+# AMD Radeon VFIO passthrough — parameterized PCI device binding
 {
   config,
   lib,
-  pkgs,
-  username,
   ...
-}:
-{
-  # AMD Radeon Pro WX 5100 - VFIO Passthrough Configuration
-  # This GPU is dedicated for VM passthrough only
+}: let
+  cfg = config.modules.gpu.radeon;
+in {
+  options.modules.gpu.radeon = {
+    enable = lib.mkEnableOption "AMD Radeon VFIO passthrough";
 
-  # Bind Radeon GPU to VFIO at boot (prevent amdgpu from claiming it)
-  boot.kernelParams = [
-    "vfio-pci.ids=1002:67c7,1002:aaf0"
-  ];
+    pciIds = lib.mkOption {
+      type = lib.types.str;
+      example = "1002:67c7,1002:aaf0";
+      description = "Comma-separated PCI vendor:device IDs to bind to vfio-pci";
+    };
 
-  # Enable runtime power management to prevent overheating when GPU is idle
-  services.udev.extraRules = ''
-    # AMD Radeon WX 5100 - Enable runtime PM for power savings when not in use by VM
-    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x67c7", ATTR{power/control}="auto"
-    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0xaaf0", ATTR{power/control}="auto"
-  '';
+    powerManagement = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          vendor = lib.mkOption {
+            type = lib.types.str;
+            example = "0x1002";
+            description = "PCI vendor ID";
+          };
+          device = lib.mkOption {
+            type = lib.types.str;
+            example = "0x67c7";
+            description = "PCI device ID";
+          };
+        };
+      });
+      default = [];
+      description = "PCI devices to enable runtime power management on";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    # Bind GPU to VFIO at boot (prevent amdgpu from claiming it)
+    boot.kernelParams = [
+      "vfio-pci.ids=${cfg.pciIds}"
+    ];
+
+    # Enable runtime power management to prevent overheating when GPU is idle
+    services.udev.extraRules = lib.concatMapStringsSep "\n" (dev: ''
+      ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="${dev.vendor}", ATTR{device}=="${dev.device}", ATTR{power/control}="auto"
+    '') cfg.powerManagement;
+  };
 }

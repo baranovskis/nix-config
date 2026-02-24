@@ -1,3 +1,7 @@
+# Packages without dedicated home-manager modules
+#
+# Programs that have home-manager modules (bat, eza, git, yazi, etc.)
+# live in their own files. This file is for raw packages only.
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # Media (CLI tools — GUI media apps live in Flatpak)
@@ -15,7 +19,7 @@
     python3
     claude-code
 
-    # Modern CLI tools (Bluefin-inspired replacements)
+    # Modern CLI tools (no home-manager modules — just packages)
     fd # find replacement
     ripgrep # grep replacement
     dust # du replacement
@@ -23,8 +27,6 @@
     procs # ps replacement
     sd # sed replacement
     tealdeer # tldr pages
-    delta # git diff viewer
-    yazi # TUI file manager
 
     # Fonts
     corefonts
