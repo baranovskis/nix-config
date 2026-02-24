@@ -43,6 +43,9 @@ in
     oci-containers.backend = "docker";
   };
 
+  # NVIDIA Container Toolkit (CDI) — GPU access in Docker and Podman containers
+  hardware.nvidia-container-toolkit.enable = true;
+
   environment.systemPackages = with pkgs; [
     lazydocker # Docker TUI
     distrobox # Pet containers from any distro image
