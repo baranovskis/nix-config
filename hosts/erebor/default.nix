@@ -3,29 +3,21 @@
   config,
   lib,
   pkgs,
-  modulesPath,
   ...
 }: {
   imports = [
-    # Hardware
     ./hardware.nix
 
-    # Graphics & GPU
-    ./graphics.nix
-    ./nvidia.nix
-    ./radeon.nix
+    # GPU stack
+    ../../modules/gpu
+    ../../modules/gpu/nvidia.nix
+    ../../modules/gpu/radeon.nix
+    ../../modules/gpu/vfio.nix
 
-    # VFIO & GPU Passthrough
-    ./vfio.nix
-
-    # Gaming
-    ./gaming.nix
-
-    # Storage
-    ./zfs.nix
-
-    # Backup
-    ./backup.nix
+    # Features
+    ../../modules/gaming.nix
+    ../../modules/zfs.nix
+    ../../modules/backup.nix
   ];
 
   # Host-specific configuration
