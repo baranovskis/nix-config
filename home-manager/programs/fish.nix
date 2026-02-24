@@ -12,5 +12,8 @@
       ".." = "cd ..";
       "..." = "cd ../..";
     };
+    shellAliases = {
+      njust = "just --justfile ~/nix-config/Justfile --working-directory ~/nix-config";
+    };
   };
 }

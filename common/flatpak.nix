@@ -52,6 +52,7 @@
     # Development
     "dev.zed.Zed"
     "com.jetbrains.Toolbox"
+    "io.podman_desktop.PodmanDesktop"
   ];
 
   # services.flatpak.uninstallUnmanaged = true;
