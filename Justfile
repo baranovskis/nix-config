@@ -3,7 +3,7 @@ default:
 
 # Build and switch system configuration
 system:
-    sudo nixos-rebuild switch --flake .#erebor
+    sudo nixos-rebuild switch --flake .#$(hostname)
 
 # Build and switch home-manager configuration
 user:

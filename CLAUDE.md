@@ -12,25 +12,25 @@ This is a NixOS flake configuration repository that manages both system-wide Nix
 ```bash
 # Rebuild and switch NixOS system configuration
 # Activates immediately and makes it the boot default
-sudo nixos-rebuild switch --flake .#erebor
+sudo nixos-rebuild switch --flake .#$(hostname)
 
 # Build and make boot default, but don't activate until reboot
-sudo nixos-rebuild boot --flake .#erebor
+sudo nixos-rebuild boot --flake .#$(hostname)
 
 # Test NixOS configuration without switching
 # Activates immediately but reverts on reboot
-sudo nixos-rebuild test --flake .#erebor
+sudo nixos-rebuild test --flake .#$(hostname)
 
 # Build NixOS configuration without switching
-sudo nixos-rebuild build --flake .#erebor
+sudo nixos-rebuild build --flake .#$(hostname)
 
 # Show what changes would be made without applying them
-sudo nixos-rebuild dry-activate --flake .#erebor
+sudo nixos-rebuild dry-activate --flake .#$(hostname)
 
 # Build a VM for testing the configuration
-sudo nixos-rebuild build-vm --flake .#erebor
+sudo nixos-rebuild build-vm --flake .#$(hostname)
 
-# Note: You can also use .#desktop or omit the hostname (defaults to erebor)
+# Note: $(hostname) resolves to the current machine's hostname at runtime
 # For other hosts, use: --flake .#hostname
 ```
 
@@ -94,24 +94,32 @@ All changes must be tracked by git before nix can see them:
 git add .
 ```
 
-### Simplifying Commands with `just`
-This configuration includes [just](https://github.com/casey/just) command runner (installed in `common/packages.nix`) with a Justfile providing shortcuts:
+### Simplifying Commands with `njust`
+This configuration includes [just](https://github.com/casey/just) command runner (installed in `modules/core/packages.nix`) with a Justfile providing shortcuts. The `njust` command (Fish shell alias defined in `home-manager/programs/fish.nix`) runs `just` with the correct Justfile and working directory, so it works from anywhere:
 
 ```bash
 # Build and switch system configuration
-just system
+njust system
 
 # Build and switch home-manager configuration
-just user
+njust user
 
 # Update flake inputs to latest versions
-just update
+njust update
 
 # Clean old generations (system + home-manager, keeps last 7 days)
-just clean
+njust clean
+
+# Show all available commands
+njust
 ```
 
-The Justfile keeps things stupid simple - just build, update, and cleanup commands.
+The `njust` alias expands to:
+```bash
+just --justfile ~/nix-config/Justfile --working-directory ~/nix-config
+```
+
+You can also use `just` directly when inside the `~/nix-config` directory.
 
 ## Architecture
 
@@ -311,8 +319,8 @@ Shared user configuration across all hosts:
 1. Make changes to configuration files
 2. Add files to git: `git add .`
 3. Check for errors: `nix flake check`
-4. Test changes: `sudo nixos-rebuild test --flake .#erebor` or `home-manager build --flake .`
-5. Apply changes: `sudo nixos-rebuild switch --flake .#erebor` or `home-manager switch --flake .`
+4. Test changes: `sudo nixos-rebuild test --flake .#$(hostname)` or `home-manager build --flake .`
+5. Apply changes: `njust system` or `njust user` (or manually: `sudo nixos-rebuild switch --flake .#$(hostname)`)
 6. Update dependencies periodically: `nix flake update`
 7. Clean up old generations: `sudo nix-collect-garbage --delete-older-than 7d`
 

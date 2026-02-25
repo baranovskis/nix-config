@@ -151,23 +151,26 @@ nixosConfigurations.moria = lib.mkHost { hostname = "moria"; };
 
 ## Usage
 
-Everything is managed through `just`:
+Everything is managed through `njust` (works from any directory):
 
 ```bash
-just system      # Build and switch NixOS config
-just user        # Build and switch home-manager config
-just update      # Update all flake inputs
-just clean       # GC old generations + prune Docker + Flatpak
-just changelogs  # Diff between current and previous generation
-just backup      # Run restic backup now
-just backup-list # List backup snapshots
-just bios        # Reboot into UEFI firmware setup
+njust system      # Build and switch NixOS config
+njust user        # Build and switch home-manager config
+njust update      # Update all flake inputs
+njust clean       # GC old generations + prune Docker + Flatpak
+njust changelogs  # Diff between current and previous generation
+njust backup      # Run restic backup now
+njust backup-list # List backup snapshots
+njust bios        # Reboot into UEFI firmware setup
+njust             # Show all available commands
 ```
+
+`njust` is a Fish shell alias defined in `home-manager/programs/fish.nix` that runs `just` with the correct Justfile and working directory. You can also use `just` directly when inside the `~/nix-config` directory.
 
 Or manually:
 
 ```bash
-sudo nixos-rebuild switch --flake .#erebor
+sudo nixos-rebuild switch --flake .#$(hostname)
 home-manager switch --flake .
 ```
 

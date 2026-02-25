@@ -38,12 +38,15 @@
     inherit (self) outputs;
     lib = import ./lib { inherit inputs outputs; };
     username = "baranovskis";
+    fullName = "Andrejs Baranovskis";
+    email = "info@baranovskis.dev";
   in {
     overlays = import ./overlays { inherit inputs; };
 
     nixosConfigurations = {
       erebor = lib.mkHost {
         hostname = "erebor";
+        inherit fullName email;
         extraModules = [
           inputs.nix-flatpak.nixosModules.nix-flatpak
         ];
@@ -55,12 +58,12 @@
 
     homeConfigurations = {
       "${username}@erebor" = lib.mkHome {
-        inherit username;
+        inherit username fullName email;
         extraModules = [ ./home-manager/hosts/erebor.nix ];
       };
 
       ${username} = lib.mkHome {
-        inherit username;
+        inherit username fullName email;
       };
     };
   };
