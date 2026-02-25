@@ -1,5 +1,7 @@
 # My NixOS Configuration
 
+[![Check](https://github.com/baranovskis/nix-config/actions/workflows/check.yml/badge.svg)](https://github.com/baranovskis/nix-config/actions/workflows/check.yml)
+
 ![Desktop Screenshot](assets/screenshot.jpg)
 
 A personal NixOS flake with GNOME, Stylix theming, gaming, VFIO passthrough, and a modern CLI toolchain. Inspired by [Bluefin OS](https://projectbluefin.io/) and its opinionated, batteries-included desktop philosophy.

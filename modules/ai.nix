@@ -13,7 +13,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.ollama = {
       enable = true;
-      acceleration = "cuda";
+      package = pkgs.ollama-cuda;
     };
 
     environment.systemPackages = with pkgs; [
