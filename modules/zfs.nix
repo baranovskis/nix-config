@@ -35,7 +35,7 @@ in {
 
     networking.hostId = cfg.hostId;
 
-    # Workaround: udev-settle causes 2min boot delay
+    # udev-settle causes 2min boot delay
     systemd.services.systemd-udev-settle.enable = false;
 
     services.zfs.autoScrub = {

@@ -35,29 +35,17 @@
     home-manager,
     ...
   } @ inputs: let
-    username = "baranovskis";
     inherit (self) outputs;
-
-    mkHome = extraModules:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {
-          inherit inputs outputs username;
-        };
-        modules = [./home-manager] ++ extraModules;
-      };
+    lib = import ./lib { inherit inputs outputs; };
+    username = "baranovskis";
   in {
-    overlays = import ./overlays {inherit inputs;};
+    overlays = import ./overlays { inherit inputs; };
 
     nixosConfigurations = {
-      erebor = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs username;
-        };
-        modules = [
+      erebor = lib.mkHost {
+        hostname = "erebor";
+        extraModules = [
           inputs.nix-flatpak.nixosModules.nix-flatpak
-          ./common
-          ./hosts/erebor
         ];
       };
 
@@ -65,13 +53,15 @@
       nixos = self.nixosConfigurations.erebor;
     };
 
-    # Per-host home configs: home-manager switch --flake .
-    # Matches "username@hostname" automatically
     homeConfigurations = {
-      "${username}@erebor" = mkHome [./home-manager/hosts/erebor.nix];
+      "${username}@erebor" = lib.mkHome {
+        inherit username;
+        extraModules = [ ./home-manager/hosts/erebor.nix ];
+      };
 
-      # Fallback (no host-specific config)
-      ${username} = mkHome [];
+      ${username} = lib.mkHome {
+        inherit username;
+      };
     };
   };
 }

@@ -18,7 +18,7 @@ Steal anything useful!
 
 ## What's Inside
 
-### System (`common/` + `modules/`)
+### System (`modules/`)
 - **GNOME** on Wayland with Stylix auto-theming
 - **PipeWire** audio, Bluetooth, CUPS printing
 - **NVIDIA** proprietary drivers (open kernel modules)
@@ -45,52 +45,47 @@ Steal anything useful!
 nix-config/
 ├── flake.nix                 # Flake definition and inputs
 ├── Justfile                  # Command shortcuts
+├── lib/
+│   └── default.nix           # mkHost + mkHome helpers
 ├── hosts/
 │   └── erebor/               # Desktop workstation
-│       ├── default.nix       # NVIDIA, VFIO, boot, restic backups, ZFS
+│       ├── default.nix       # Enables profiles/modules, NVIDIA, VFIO, boot, restic
 │       └── hardware.nix      # Generated hardware config
-├── modules/                  # Reusable NixOS modules (mkEnableOption)
-│   ├── gaming.nix            # Steam, Proton-GE, GameMode
-│   ├── gpu.nix               # Base graphics (OpenGL, Vulkan, 32-bit)
-│   └── zfs.nix               # ZFS pools, scrub, snapshots
-├── common/                   # Shared system config (all hosts)
-│   ├── default.nix           # Imports everything below
-│   ├── ai.nix                # Ollama (CUDA)
-│   ├── audio.nix             # PipeWire
-│   ├── bluetooth.nix         # Bluetooth
-│   ├── docker.nix            # Docker
-│   ├── flatpak.nix           # Declarative Flatpak packages
-│   ├── gc.nix                # Garbage collection
-│   ├── gnome.nix             # GNOME desktop
-│   ├── gnupg.nix             # GnuPG
-│   ├── locale.nix            # Timezone, i18n
-│   ├── networking.nix        # Network
-│   ├── nfs.nix               # NFS
-│   ├── nix.nix               # Nix daemon, flakes
-│   ├── nuphy.nix             # NuPhy keyboard
-│   ├── packages.nix          # System packages, nh, nom, nvd
-│   ├── power.nix             # Power management
-│   ├── printing.nix          # CUPS
-│   ├── rdp.nix               # GNOME RDP
-│   ├── shell.nix             # Fish shell (system)
-│   ├── solaar.nix            # Logitech devices
-│   ├── ssh.nix               # SSH
-│   ├── sunshine.nix          # Sunshine streaming
-│   ├── user.nix              # User accounts
-│   ├── virtualization.nix    # QEMU/KVM/libvirt
-│   └── zen-browser.nix       # Zen Browser
-├── home-manager/             # User config (home-manager)
-│   ├── default.nix           # Entry point, Nautilus bookmarks
+├── modules/
+│   ├── default.nix           # Imports core + wm + profiles + all modules
+│   ├── core/                 # Always-on base system
+│   │   ├── nix.nix           # Nix daemon, flakes
+│   │   ├── locale.nix        # Timezone, i18n
+│   │   ├── networking.nix    # NetworkManager
+│   │   ├── shell.nix         # Fish shell
+│   │   ├── user.nix          # User accounts
+│   │   ├── gc.nix            # Garbage collection
+│   │   ├── packages.nix      # Base system packages
+│   │   ├── ssh.nix           # SSH
+│   │   └── power.nix         # Power management
+│   ├── wm/                   # Window managers (swappable)
+│   │   └── gnome.nix         # modules.wm.gnome.enable
+│   ├── profiles/
+│   │   └── desktop.nix       # profiles.desktop.enable (audio, bluetooth, printing, flatpak, peripherals)
+│   ├── gpu.nix               # modules.gpu.enable
+│   ├── gaming.nix            # modules.gaming.enable
+│   ├── zfs.nix               # modules.zfs.enable
+│   ├── docker.nix            # modules.docker.enable
+│   ├── virtualization.nix    # modules.virtualization.enable
+│   ├── ai.nix                # modules.ai.enable
+│   ├── sunshine.nix          # modules.sunshine.enable
+│   ├── rdp.nix               # modules.rdp.enable
+│   └── nfs.nix               # modules.nfs.enable
+├── home-manager/
+│   ├── default.nix           # Entry point
 │   ├── config/
-│   │   ├── default.nix       # Config imports
 │   │   ├── dconf.nix         # GNOME dconf
 │   │   └── stylix.nix        # Theme, fonts, icons, cursor
 │   ├── hosts/
 │   │   └── erebor.nix        # Looking Glass client config
 │   ├── modules/
 │   │   └── nautilus.nix      # Nautilus bookmarks module
-│   ├── programs/
-│   │   ├── default.nix       # Program imports
+│   ├── programs/             # Per-program configs
 │   │   ├── fish.nix          # Fish shell
 │   │   ├── starship.nix      # Starship prompt
 │   │   ├── ghostty.nix       # Ghostty terminal
@@ -105,10 +100,33 @@ nix-config/
 │   │   ├── direnv.nix        # direnv + nix-direnv
 │   │   ├── git.nix           # Git
 │   │   └── packages.nix      # User packages
-│   └── wallpapers/           # Wallpapers
+│   └── wallpapers/
 ├── pkgs/                     # Custom packages
 └── overlays/
     └── default.nix           # Package overlays
+```
+
+## Adding a New Host
+
+```nix
+# 1. Create hosts/moria/default.nix + hardware.nix
+{ ... }: {
+  imports = [ ./hardware.nix ];
+  networking.hostName = "moria";
+  modules.docker.enable = true;
+  # No profiles.desktop — headless server
+}
+
+# 2. Add one line to flake.nix
+nixosConfigurations.moria = lib.mkHost { hostname = "moria"; };
+```
+
+## Adding a New Window Manager
+
+```nix
+# 1. Create modules/wm/hyprland.nix with modules.wm.hyprland.enable
+# 2. Import it in modules/wm/default.nix
+# 3. In a host: modules.wm.hyprland.enable = true;
 ```
 
 ## Usage

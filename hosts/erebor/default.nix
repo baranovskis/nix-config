@@ -1,31 +1,35 @@
-# Erebor — Desktop workstation
 {
   config,
   pkgs,
   username,
   ...
 }: {
-  imports = [
-    ./hardware.nix
-    ../../modules/gpu.nix
-    ../../modules/gaming.nix
-    ../../modules/zfs.nix
-  ];
+  imports = [ ./hardware.nix ];
 
   networking.hostName = "erebor";
+
+  # Profiles
+  profiles.desktop.enable = true;
+  modules.wm.gnome.enable = true;
 
   # Modules
   modules.gpu.enable = true;
   modules.gaming.enable = true;
+  modules.docker.enable = true;
+  modules.virtualization.enable = true;
+  modules.ai.enable = true;
+  modules.sunshine.enable = true;
+  modules.rdp.enable = true;
+  modules.nfs.enable = true;
 
   modules.zfs = {
     enable = true;
     hostId = "afeb27ee";
-    pools = ["tank"];
+    pools = [ "tank" ];
   };
 
   # NVIDIA RTX 4060
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -50,7 +54,7 @@
     looking-glass-client
   ];
 
-  # Restic backup
+  # Restic backup to ZFS pool
   services.restic.backups.daily = {
     initialize = true;
     repository = "/tank/backups";
@@ -91,7 +95,7 @@
   # Boot
   boot = {
     kernelPackages = pkgs.linuxPackages_6_12;
-    extraModulePackages = [config.boot.kernelPackages.kvmfr];
+    extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
 
     initrd = {
       verbose = false;
@@ -109,13 +113,10 @@
       "loglevel=3"
       "systemd.show_status=auto"
       "rd.udev.log_level=3"
-
       "nvidia-drm.fbdev=1"
 
       # Radeon WX 5100 VFIO passthrough
       "vfio-pci.ids=1002:67c7,1002:aaf0"
-
-      # IOMMU
       "intel_iommu=on"
       "iommu=pt"
       "rd.driver.pre=vfio_pci"
@@ -142,7 +143,7 @@
     };
   };
 
-  # Udev
+  # Udev rules
   services.udev.extraRules = ''
     # Radeon WX 5100 power management
     ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x67c7", ATTR{power/control}="auto"

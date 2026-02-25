@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  # Nix garbage collection
+{ ... }: {
   nix.gc = {
     automatic = true;
     dates = "weekly";

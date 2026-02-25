@@ -2,7 +2,6 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-      # MOTD — fastfetch + njust commands on new interactive shells
       if status is-interactive; and not set -q __motd_shown
         set -g __motd_shown 1
         fastfetch

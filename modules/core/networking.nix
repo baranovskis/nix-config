@@ -1,13 +1,9 @@
 {
-  pkgs,
   lib,
-  config,
   username,
   ...
-}:
-{
+}: {
   networking = {
-    # hostname is defined per-host in hosts/*/default.nix
     networkmanager = {
       enable = true;
       wifi.powersave = true;
@@ -18,7 +14,5 @@
     usePredictableInterfaceNames = true;
   };
 
-  users.users.${username} = {
-    extraGroups = [ "networkmanager" ];
-  };
+  users.users.${username}.extraGroups = [ "networkmanager" ];
 }
