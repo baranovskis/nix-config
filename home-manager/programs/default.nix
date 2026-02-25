@@ -13,6 +13,7 @@
     ./zoxide.nix
 
     ./direnv.nix
+    ./gaming.nix
     ./ghostty.nix
     ./git.nix
 

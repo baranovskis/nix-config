@@ -23,7 +23,7 @@ Steal anything useful!
 - **PipeWire** audio, Bluetooth, CUPS printing
 - **NVIDIA** proprietary drivers (open kernel modules)
 - **VFIO** GPU passthrough with Looking Glass (`kvmfr`)
-- **Steam** + Proton-GE, GameMode
+- **Steam** + Proton-GE, GameMode, MangoHud
 - **Ollama** with CUDA acceleration for local LLMs
 - **Docker**, libvirt/QEMU/KVM, Sunshine streaming
 - **ZFS** with auto-scrub, snapshots, and restic backups
@@ -34,7 +34,8 @@ Steal anything useful!
 ### User (`home-manager/`)
 - **Ghostty** terminal with Fish integration
 - **Fish** shell + **Starship** prompt + **Atuin** history
-- **Yazi** file manager, **Nautilus** with custom bookmarks
+- **Yazi** file manager, **Nautilus** with custom bookmarks (GNOME-specific)
+- **MangoHud** FPS overlay for gaming
 - **bat**, **eza**, **btop**, **fastfetch**, **fzf**, **zoxide**, **fd**, **ripgrep**, **dust**, **duf**, **procs**, **sd**, **tealdeer**
 - **direnv** with nix-direnv, Node.js 22, Python 3, Claude Code
 - **Stylix** dark theme — Inter font, JetBrains Mono, Papirus icons, Capitaine cursors
@@ -51,7 +52,7 @@ nix-config/
 │   └── erebor/               # Desktop workstation
 │       ├── default.nix       # Enables profiles/modules, NVIDIA, VFIO, boot, restic
 │       └── hardware.nix      # Generated hardware config
-├── modules/
+├── modules/                  # NixOS system modules
 │   ├── default.nix           # Imports core + wm + profiles + all modules
 │   ├── core/                 # Always-on base system
 │   │   ├── nix.nix           # Nix daemon, flakes
@@ -66,7 +67,15 @@ nix-config/
 │   ├── wm/                   # Window managers (swappable)
 │   │   └── gnome.nix         # modules.wm.gnome.enable
 │   ├── profiles/
-│   │   └── desktop.nix       # profiles.desktop.enable (audio, bluetooth, printing, flatpak, peripherals)
+│   │   └── desktop/          # profiles.desktop.enable
+│   │       ├── audio.nix     # PipeWire
+│   │       ├── bluetooth.nix # Bluetooth
+│   │       ├── flatpak.nix   # Flatpak + Flathub packages
+│   │       ├── gnupg.nix     # GnuPG
+│   │       ├── nuphy.nix     # NuPhy keyboard
+│   │       ├── printing.nix  # CUPS
+│   │       ├── solaar.nix    # Logitech Solaar
+│   │       └── zen-browser.nix # Zen Browser
 │   ├── gpu.nix               # modules.gpu.enable
 │   ├── gaming.nix            # modules.gaming.enable
 │   ├── zfs.nix               # modules.zfs.enable
@@ -76,19 +85,23 @@ nix-config/
 │   ├── sunshine.nix          # modules.sunshine.enable
 │   ├── rdp.nix               # modules.rdp.enable
 │   └── nfs.nix               # modules.nfs.enable
-├── home-manager/
-│   ├── default.nix           # Entry point
+├── home-manager/             # User environment
+│   ├── default.nix           # Entry point (WM-agnostic)
 │   ├── config/
-│   │   ├── dconf.nix         # GNOME dconf
 │   │   └── stylix.nix        # Theme, fonts, icons, cursor
+│   ├── wm/                   # WM-specific user config
+│   │   └── gnome/
+│   │       ├── default.nix   # Nautilus bookmarks
+│   │       └── dconf.nix     # GNOME dconf settings
 │   ├── hosts/
-│   │   └── erebor.nix        # Looking Glass client config
+│   │   └── erebor.nix        # Host-specific (Looking Glass, imports wm/gnome)
 │   ├── modules/
 │   │   └── nautilus.nix      # Nautilus bookmarks module
-│   ├── programs/             # Per-program configs
+│   ├── programs/
 │   │   ├── fish.nix          # Fish shell
 │   │   ├── starship.nix      # Starship prompt
 │   │   ├── ghostty.nix       # Ghostty terminal
+│   │   ├── gaming.nix        # MangoHud
 │   │   ├── atuin.nix         # Shell history
 │   │   ├── bat.nix           # bat
 │   │   ├── btop.nix          # System monitor
@@ -124,9 +137,16 @@ nixosConfigurations.moria = lib.mkHost { hostname = "moria"; };
 ## Adding a New Window Manager
 
 ```nix
+# System side:
 # 1. Create modules/wm/hyprland.nix with modules.wm.hyprland.enable
 # 2. Import it in modules/wm/default.nix
-# 3. In a host: modules.wm.hyprland.enable = true;
+
+# User side:
+# 3. Create home-manager/wm/hyprland/ with WM-specific user config
+# 4. Import from home-manager/hosts/<hostname>.nix
+
+# In a host:
+# modules.wm.hyprland.enable = true;
 ```
 
 ## Usage

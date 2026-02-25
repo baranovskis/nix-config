@@ -2,7 +2,7 @@
   imports = [
     ./core
     ./wm
-    ./profiles/desktop.nix
+    ./profiles/desktop
 
     ./ai.nix
     ./docker.nix
