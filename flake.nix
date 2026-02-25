@@ -46,7 +46,7 @@
     nixosConfigurations = {
       erebor = lib.mkHost {
         hostname = "erebor";
-        inherit fullName email;
+        inherit username fullName email;
         extraModules = [
           inputs.nix-flatpak.nixosModules.nix-flatpak
         ];

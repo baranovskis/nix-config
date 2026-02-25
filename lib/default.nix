@@ -1,9 +1,9 @@
 { inputs, outputs }: {
   mkHost = {
     hostname,
-    username ? "baranovskis",
-    fullName ? "Andrejs Baranovskis",
-    email ? "info@baranovskis.dev",
+    username ? builtins.throw "mkHost: 'username' is required",
+    fullName ? builtins.throw "mkHost: 'fullName' is required",
+    email ? builtins.throw "mkHost: 'email' is required",
     system ? "x86_64-linux",
     extraModules ? [],
   }:
@@ -18,9 +18,9 @@
     };
 
   mkHome = {
-    username,
-    fullName ? "Andrejs Baranovskis",
-    email ? "info@baranovskis.dev",
+    username ? builtins.throw "mkHome: 'username' is required",
+    fullName ? builtins.throw "mkHome: 'fullName' is required",
+    email ? builtins.throw "mkHome: 'email' is required",
     system ? "x86_64-linux",
     extraModules ? [],
   }:
