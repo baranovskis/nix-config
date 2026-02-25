@@ -1,6 +1,6 @@
-{ pkgs, username, ... }: {
+{ pkgs, username, fullName, ... }: {
   users.users.${username} = {
-    description = "Andrejs Baranovskis";
+    description = fullName;
     shell = pkgs.fish;
     isNormalUser = true;
     initialPassword = "P@ssw0rd";
