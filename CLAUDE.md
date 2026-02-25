@@ -200,8 +200,19 @@ Shared user configuration across all hosts:
   - `dconf.nix`: GNOME dconf settings
 - `programs/`: User application configurations
   - `default.nix`: Program module imports
+  - `fish.nix`: Fish shell configuration
+  - `starship.nix`: Starship prompt
+  - `ghostty.nix`: Ghostty terminal (inspired by Bluefin OS, replaces Ptyxis)
+  - `atuin.nix`: Atuin shell history
+  - `bat.nix`: bat (cat replacement)
+  - `btop.nix`: btop system monitor
+  - `eza.nix`: eza (ls replacement)
+  - `fastfetch.nix`: System info fetcher
+  - `fzf.nix`: Fuzzy finder
+  - `yazi.nix`: Yazi file manager
+  - `zoxide.nix`: Smart directory jumper
   - `direnv.nix`: direnv with nix-direnv integration
-  - `looking-glass.nix`: Looking Glass client configuration
+  - `git.nix`: Git configuration
   - `packages.nix`: General user packages (categorized)
 - `themes/`: Theming configurations
   - `stylix.nix`: Stylix theme settings and fonts
@@ -218,8 +229,8 @@ Shared user configuration across all hosts:
 **Note:** Host-specific user packages (like gaming apps) should be added directly to host configuration files (e.g., `hosts/erebor/gaming.nix`) rather than creating separate home-manager modules per host.
 
 ### Custom Packages (`pkgs/`)
-- `citron-emu/package.nix`: Custom emulator package
-- Packages are exposed via overlays
+- Currently empty — add custom packages here as needed
+- Packages are auto-discovered and exposed via overlays
 
 ### Overlays (`overlays/`)
 - `default.nix`: Package overlays and modifications

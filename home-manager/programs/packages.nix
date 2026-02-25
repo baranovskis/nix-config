@@ -1,26 +1,26 @@
-{pkgs, inputs, ...}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    # Media & Communication
+    # Media
     ffmpeg
     imagemagick
-    spotify
-
-    # Security & Utilities
 
     # Productivity
-    remmina
-    gimp
-    inkscape
     realesrgan-ncnn-vulkan
     eloquent
 
     # Development
-    zed-editor
-    jetbrains-toolbox
     nodejs_22
     python3
     claude-code
-    fastfetch
+
+    # CLI tools
+    fd
+    ripgrep
+    dust
+    duf
+    procs
+    sd
+    tealdeer
 
     # Fonts
     corefonts

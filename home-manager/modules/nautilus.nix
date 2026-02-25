@@ -1,6 +1,3 @@
-# Nautilus file manager configuration module
-#
-# Manages GTK bookmarks and custom folder icons declaratively.
 {
   lib,
   config,

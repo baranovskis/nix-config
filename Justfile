@@ -1,25 +1,43 @@
-# Show available commands
 default:
     @just --list
 
-# Build system configuration
+# Build and switch system configuration
 system:
     sudo nixos-rebuild switch --flake .#erebor
 
-# Build home-manager configuration
+# Build and switch home-manager configuration
 user:
     home-manager switch --flake . -b backup
 
-# Update flake inputs
+# Update all flake inputs
 update:
     nix flake update
 
-# Clean old generations
+# Show diff between current and previous generation
+changelogs:
+    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link | tail -2 | head -1) /nix/var/nix/profiles/system
+
+# Clean old generations, containers, and flatpak runtimes
 clean:
     sudo nix-collect-garbage --delete-older-than 7d
     home-manager expire-generations "-7 days"
+    sudo docker system prune -f
+    podman system prune -f
+    flatpak uninstall --unused -y
 
-# Run backup now
+# Reboot into BIOS/UEFI firmware setup
+bios:
+    systemctl reboot --firmware-setup
+
+# Create a new Distrobox container
+distrobox-create name="fedora" image="registry.fedoraproject.org/fedora-toolbox:latest":
+    distrobox create --name {{name}} --image {{image}}
+
+# Enter a Distrobox container
+distrobox-enter name="fedora":
+    distrobox enter {{name}}
+
+# Run restic backup now
 backup:
     sudo systemctl start restic-backups-daily && sudo journalctl -fu restic-backups-daily
 
@@ -31,6 +49,6 @@ backup-status:
 backup-list:
     sudo restic -r /tank/backups --password-file /etc/restic-password snapshots
 
-# Restore latest backup to specified directory
+# Restore latest backup to target directory
 backup-restore target="/tmp/restore":
     sudo restic -r /tank/backups --password-file /etc/restic-password restore latest --target {{target}}

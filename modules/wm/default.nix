@@ -1,5 +1,5 @@
 { ... }: {
   imports = [
-    ./stylix.nix
+    ./gnome.nix
   ];
 }
