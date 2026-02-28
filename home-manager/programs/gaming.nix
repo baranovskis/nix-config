@@ -17,9 +17,7 @@
       vulkan_driver = true;
       wine = true;
       gamemode = true;
-      font_size = 20;
       position = "top-left";
-      background_alpha = "0.3";
       round_corners = 8;
       toggle_hud = "Shift_R+F12";
       no_display = true;

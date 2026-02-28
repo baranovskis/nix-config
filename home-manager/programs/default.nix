@@ -5,7 +5,6 @@
 
     ./atuin.nix
     ./bat.nix
-    ./btop.nix
     ./eza.nix
     ./fastfetch.nix
     ./fzf.nix

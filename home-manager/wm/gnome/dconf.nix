@@ -68,7 +68,6 @@
       enable-animations = true;
       font-name = "Inter 12";
       gtk-theme = "adw-gtk3";
-      monospace-font-name = "JetBrains Mono 12";
       toolkit-accessibility = false;
     };
     "org/gnome/desktop/notifications" = {
@@ -113,7 +112,7 @@
       disable-user-extensions = false;
       disabled-extensions = [ "ding@rastersoft.com" ];
       enabled-extensions = [ "AlphabeticalAppGrid@stuarthayhurst" "appindicatorsupport@rgcjonas.gmail.com" "auto-accent-colour@Wartybix" "blur-my-shell@aunetx" "color-picker@tuberry" "dash-in-panel@fthx" "gsconnect@andyholmes.github.io" "solaar-extension@sidevesh" "undecorate@sun.wxg@gmail.com" "user-theme@gnome-shell-extensions.gcampax.github.com" "Vitals@CoreCoding.com" "caffeine@patapon.info" "logomenu@aryan_k" "pop-shell@system76.com" "just-perfection-desktop@just-perfection" ];
-      favorite-apps = [ "org.gnome.Nautilus.desktop" "org.telegram.desktop.desktop" "org.gnome.Console.desktop" ];
+      favorite-apps = [ "org.gnome.Nautilus.desktop" "org.telegram.desktop.desktop" "com.mitchellh.ghostty.desktop" ];
       last-selected-power-profile = "performance";
       welcome-dialog-last-shown-version = "48.4";
     };
@@ -127,7 +126,7 @@
       menu-button-icon-size = 24;
       menu-button-software-center = "";
       menu-button-system-monitor = "missioncenter";
-      menu-button-terminal = "kgx";
+      menu-button-terminal = "ghostty";
       show-activities-button = false;
       show-lockscreen = true;
       show-power-options = true;

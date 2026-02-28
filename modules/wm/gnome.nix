@@ -62,8 +62,8 @@ in {
     environment.systemPackages = with pkgs; [
       gnome-tweaks
       gnome-remote-desktop
+      nautilus-open-any-terminal
       gnomeExtensions.logo-menu
-      gnomeExtensions.pop-shell
       gnomeExtensions.alphabetical-app-grid
       gnomeExtensions.appindicator
       gnomeExtensions.auto-accent-colour
@@ -92,6 +92,7 @@ in {
       hitori
       atomix
       gnome-system-monitor
+      gnome-console
     ];
   };
 }

@@ -20,6 +20,15 @@
       onCalendar = "*-*-* 0/6:00:00";
     };
 
+    services.flatpak.overrides.global = {
+      Environment = {
+        GTK_THEME = "Adwaita:dark";
+        # Fix nix-ld leaking NIX_LD into the Flatpak sandbox,
+        # causing apps to miss runtime libraries (e.g. libasound.so.2)
+        LD_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu";
+      };
+    };
+
     services.flatpak.packages = [
       "io.github.kolunmi.Bazaar"
       "com.github.tchx84.Flatseal"
@@ -37,7 +46,7 @@
       "com.usebottles.bottles"
       "com.jeffser.Alpaca"
       "dev.zed.Zed"
-      "com.jetbrains.Toolbox"
+      #"com.jetbrains.Toolbox"
       "io.podman_desktop.PodmanDesktop"
     ];
   };

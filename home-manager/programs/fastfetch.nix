@@ -3,21 +3,10 @@
     enable = true;
     settings = {
       logo = {
-        type = "small";
-        source = builtins.toFile "erebor.txt" ''
-              ▲
-             ╱ ╲
-            ╱   ╲
-           ╱  ◆  ╲
-          ╱  ╱ ╲  ╲
-         ╱  ╱   ╲  ╲
-        ╱__╱_____╲__╲
-           EREBOR
-        '';
-        color = {
-          "1" = "yellow";
-          "2" = "white";
-        };
+        type = "kitty-direct";
+        source = ../logo/erebor.png;
+        width = 22;
+        height = 14;
         padding = {
           top = 1;
           left = 2;

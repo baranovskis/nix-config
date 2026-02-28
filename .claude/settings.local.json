@@ -14,7 +14,8 @@
       "mcp__acp__Edit",
       "mcp__acp__Bash",
       "WebFetch(domain:wiki.nixos.org)",
-      "mcp__acp__Write"
+      "mcp__acp__Write",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

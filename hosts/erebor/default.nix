@@ -18,7 +18,7 @@
   modules.docker.enable = true;
   modules.virtualization.enable = true;
   modules.ai.enable = true;
-  modules.sunshine.enable = true;
+  #modules.sunshine.enable = true;
   modules.rdp.enable = true;
   modules.nfs.enable = true;
 

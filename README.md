@@ -8,16 +8,6 @@ A personal NixOS flake with GNOME, Stylix theming, gaming, VFIO passthrough, and
 
 Steal anything useful!
 
-## Hardware
-
-| | |
-|---|---|
-| **CPU** | Intel i5-13600KF |
-| **RAM** | 64 GB |
-| **GPU 1** | NVIDIA RTX 4060 (main) |
-| **GPU 2** | AMD Radeon Pro WX 5100 (VFIO passthrough) |
-| **Storage** | ZFS pool (`tank`) with auto-scrub and snapshots |
-
 ## What's Inside
 
 ### System (`modules/`)
@@ -183,3 +173,4 @@ All files must be `git add`ed before Nix can see them.
 - [Bluefin OS](https://projectbluefin.io/) for the inspiration
 - [NixOS](https://nixos.org/) and [Home Manager](https://github.com/nix-community/home-manager)
 - [Stylix](https://github.com/danth/stylix) for system-wide theming
+- Erebor logo by [Aronja Art](https://www.artstation.com/artwork/5Xq5J)
