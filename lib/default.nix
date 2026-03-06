@@ -11,6 +11,7 @@
       specialArgs = { inherit inputs outputs username fullName email; };
       modules =
         [
+          inputs.stylix.nixosModules.stylix
           ../modules
           ../hosts/${hostname}
         ]

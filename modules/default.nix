@@ -12,6 +12,7 @@
     ./rdp.nix
     ./sunshine.nix
     ./virtualization.nix
+    ./btrfs.nix
     ./zfs.nix
   ];
 

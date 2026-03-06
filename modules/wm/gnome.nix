@@ -5,12 +5,17 @@
   ...
 }: let
   cfg = config.modules.wm.gnome;
+  stylixSettings = import ../../lib/stylix.nix {inherit pkgs;};
 in {
   options.modules.wm.gnome = {
     enable = lib.mkEnableOption "GNOME desktop environment";
   };
 
   config = lib.mkIf cfg.enable {
+    stylix = stylixSettings // {
+      image = ../../assets/wallpapers/wallhaven-lym7pl.jpg;
+    };
+
     environment.sessionVariables = {
       # Improves NVIDIA Wayland performance
       MUTTER_DEBUG_KMS_THREAD_TYPE = "user";
@@ -18,13 +23,6 @@ in {
       # https://gitlab.gnome.org/GNOME/sushi/-/issues/135#note_2500306
       GDK_GL = "gles";
 
-      # https://github.com/NixOS/nixpkgs/issues/195936#issuecomment-1278954466
-      GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
-        pkgs.gst_all_1.gst-plugins-good
-        pkgs.gst_all_1.gst-plugins-bad
-        pkgs.gst_all_1.gst-plugins-ugly
-        pkgs.gst_all_1.gst-libav
-      ];
     };
 
     services = {
@@ -60,6 +58,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
+      papirus-icon-theme
       gnome-tweaks
       gnome-remote-desktop
       nautilus-open-any-terminal

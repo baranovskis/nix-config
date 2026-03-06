@@ -15,7 +15,16 @@
       "mcp__acp__Bash",
       "WebFetch(domain:wiki.nixos.org)",
       "mcp__acp__Write",
-      "WebSearch"
+      "WebSearch",
+      "Bash(grep:*)",
+      "Bash(flatpak override:*)",
+      "Bash(dconf read:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:discourse.nixos.org)",
+      "Bash(flatpak:*)",
+      "Bash(nix-store:*)",
+      "WebFetch(domain:nix-community.github.io)",
+      "Bash(git:*)"
     ],
     "deny": [],
     "ask": []

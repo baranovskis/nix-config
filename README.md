@@ -4,7 +4,7 @@
 
 ![Desktop Screenshot](assets/screenshot.jpg)
 
-A personal NixOS flake with GNOME, Stylix theming, gaming, VFIO passthrough, and a modern CLI toolchain. Inspired by [Bluefin OS](https://projectbluefin.io/) and its opinionated, batteries-included desktop philosophy.
+A personal NixOS flake with GNOME, Stylix theming, gaming, VFIO passthrough, and a modern CLI toolchain. Previously used [Bluefin OS](https://projectbluefin.io/) and really enjoyed it — this configuration carries forward its opinionated, batteries-included desktop philosophy.
 
 Steal anything useful!
 
@@ -17,19 +17,20 @@ Steal anything useful!
 - **VFIO** GPU passthrough with Looking Glass (`kvmfr`)
 - **Steam** + Proton-GE, GameMode, MangoHud
 - **Ollama** with CUDA acceleration for local LLMs
-- **Docker**, libvirt/QEMU/KVM, Sunshine streaming
-- **ZFS** with auto-scrub, snapshots, and restic backups
-- **Flatpak** (declarative) — Telegram, Bitwarden, Spotify, GIMP, Inkscape, Lutris, Heroic, Bottles, Zed, JetBrains Toolbox
+- **Docker**, Podman, Distrobox, libvirt/QEMU/KVM, Sunshine streaming
+- **Btrfs** with auto-scrub and restic backups
+- **RDP** remote desktop (XRDP + GNOME Remote Desktop)
 - **Zen Browser** (declarative wrapFirefox)
 - Firmware updates via fwupd, NuPhy keyboard support, Solaar for Logitech
 
 ### User (`home-manager/`)
 - **Ghostty** terminal with Fish integration
 - **Fish** shell + **Starship** prompt + **Atuin** history
-- **Yazi** file manager, **Nautilus** with custom bookmarks (GNOME-specific)
+- **Nautilus** with custom bookmarks (GNOME-specific)
 - **MangoHud** FPS overlay for gaming
-- **bat**, **eza**, **btop**, **fastfetch**, **fzf**, **zoxide**, **fd**, **ripgrep**, **dust**, **duf**, **procs**, **sd**, **tealdeer**
-- **direnv** with nix-direnv, Node.js 22, Python 3, Claude Code
+- **Flatpak** (declarative) — Telegram, Bitwarden, Spotify, GIMP, Inkscape, Remmina, Bottles, Alpaca, Podman Desktop, Mission Center, Bazaar, Flatseal, Warehouse, Extension Manager
+- **bat**, **eza**, **fastfetch**, **fzf**, **zoxide**
+- **direnv** with nix-direnv, Node.js 22, Python 3, Claude Code, Zed
 - **Stylix** dark theme — Inter font, JetBrains Mono, Papirus icons, Capitaine cursors
 
 ## Project Structure
@@ -39,7 +40,8 @@ nix-config/
 ├── flake.nix                 # Flake definition and inputs
 ├── Justfile                  # Command shortcuts
 ├── lib/
-│   └── default.nix           # mkHost + mkHome helpers
+│   ├── default.nix           # mkHost + mkHome helpers
+│   └── stylix.nix            # Shared Stylix theme settings
 ├── hosts/
 │   └── erebor/               # Desktop workstation
 │       ├── default.nix       # Enables profiles/modules, NVIDIA, VFIO, boot, restic
@@ -62,7 +64,7 @@ nix-config/
 │   │   └── desktop/          # profiles.desktop.enable
 │   │       ├── audio.nix     # PipeWire
 │   │       ├── bluetooth.nix # Bluetooth
-│   │       ├── flatpak.nix   # Flatpak + Flathub packages
+│   │       ├── flatpak.nix   # Flatpak daemon + XDG portal
 │   │       ├── gnupg.nix     # GnuPG
 │   │       ├── nuphy.nix     # NuPhy keyboard
 │   │       ├── printing.nix  # CUPS
@@ -70,6 +72,7 @@ nix-config/
 │   │       └── zen-browser.nix # Zen Browser
 │   ├── gpu.nix               # modules.gpu.enable
 │   ├── gaming.nix            # modules.gaming.enable
+│   ├── btrfs.nix             # modules.btrfs.enable
 │   ├── zfs.nix               # modules.zfs.enable
 │   ├── docker.nix            # modules.docker.enable
 │   ├── virtualization.nix    # modules.virtualization.enable
@@ -96,17 +99,18 @@ nix-config/
 │   │   ├── gaming.nix        # MangoHud
 │   │   ├── atuin.nix         # Shell history
 │   │   ├── bat.nix           # bat
-│   │   ├── btop.nix          # System monitor
 │   │   ├── eza.nix           # ls replacement
 │   │   ├── fastfetch.nix     # System info
 │   │   ├── fzf.nix           # Fuzzy finder
-│   │   ├── yazi.nix          # File manager
 │   │   ├── zoxide.nix        # Smart cd
+│   │   ├── flatpak.nix       # Flatpak packages + overrides
 │   │   ├── direnv.nix        # direnv + nix-direnv
-│   │   ├── git.nix           # Git
+│   │   ├── git.nix           # Git + delta
 │   │   └── packages.nix      # User packages
-│   └── wallpapers/
-├── pkgs/                     # Custom packages
+│   └── logo/
+│       └── erebor.png        # Fastfetch logo
+├── assets/
+│   └── wallpapers/           # Wallpapers (Stylix auto-theming + desktop)
 └── overlays/
     └── default.nix           # Package overlays
 ```
@@ -146,15 +150,19 @@ nixosConfigurations.moria = lib.mkHost { hostname = "moria"; };
 Everything is managed through `njust` (works from any directory):
 
 ```bash
-njust system      # Build and switch NixOS config
-njust user        # Build and switch home-manager config
-njust update      # Update all flake inputs
-njust clean       # GC old generations + prune Docker + Flatpak
-njust changelogs  # Diff between current and previous generation
-njust backup      # Run restic backup now
-njust backup-list # List backup snapshots
-njust bios        # Reboot into UEFI firmware setup
-njust             # Show all available commands
+njust system          # Build and switch NixOS config
+njust user            # Build and switch home-manager config
+njust update          # Update all flake inputs
+njust clean           # GC old generations + prune Docker/Podman + Flatpak
+njust changelogs      # Diff between current and previous generation
+njust backup          # Run restic backup now
+njust backup-list     # List backup snapshots
+njust backup-status   # Check backup service status
+njust backup-restore  # Restore latest backup to target directory
+njust distrobox-create # Create a new Distrobox container
+njust distrobox-enter  # Enter a Distrobox container
+njust bios            # Reboot into UEFI firmware setup
+njust                 # Show all available commands
 ```
 
 `njust` is a Fish shell alias defined in `home-manager/programs/fish.nix` that runs `just` with the correct Justfile and working directory. You can also use `just` directly when inside the `~/nix-config` directory.
@@ -171,6 +179,4 @@ All files must be `git add`ed before Nix can see them.
 ## Acknowledgments
 
 - [Bluefin OS](https://projectbluefin.io/) for the inspiration
-- [NixOS](https://nixos.org/) and [Home Manager](https://github.com/nix-community/home-manager)
-- [Stylix](https://github.com/danth/stylix) for system-wide theming
-- Erebor logo by [Aronja Art](https://www.artstation.com/artwork/5Xq5J)
+- Erebor logo by [Denny Ibnu](https://www.artstation.com/artwork/5Xq5J)

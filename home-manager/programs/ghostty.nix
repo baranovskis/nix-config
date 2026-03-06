@@ -8,9 +8,9 @@
     enableFishIntegration = true;
     settings = {
       font-family = "FiraCode Nerd Font";
-      background-opacity = 0.9;
+      background-opacity = 0.95;
       window-width = 110;
-      window-height = 35;
+      window-height = 40;
       window-padding-x = 16;
       window-padding-y = 12;
       window-decoration = true;

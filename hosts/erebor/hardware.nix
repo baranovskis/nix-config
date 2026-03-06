@@ -24,6 +24,12 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  fileSystems."/tank" =
+    { device = "/dev/disk/by-uuid/64675063-fd79-4e14-a588-8aebd42be717";
+      fsType = "btrfs";
+      options = [ "compress=zstd" ];
+    };
+
   fileSystems."/fast" =
     { device = "/dev/disk/by-uuid/7943a758-a4d2-4e8b-9385-ade2f92e5f87";
       fsType = "ext4";

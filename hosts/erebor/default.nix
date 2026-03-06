@@ -22,10 +22,9 @@
   modules.rdp.enable = true;
   modules.nfs.enable = true;
 
-  modules.zfs = {
+  modules.btrfs = {
     enable = true;
-    hostId = "afeb27ee";
-    pools = [ "tank" ];
+    mountpoints = [ "/tank" ];
   };
 
   # NVIDIA RTX 4060
@@ -54,7 +53,7 @@
     looking-glass-client
   ];
 
-  # Restic backup to ZFS pool
+  # Restic backup to Btrfs pool
   services.restic.backups.daily = {
     initialize = true;
     repository = "/tank/backups";
@@ -94,7 +93,7 @@
 
   # Boot
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_12;
+    kernelPackages = pkgs.linuxPackages_zen;
     extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
 
     initrd = {

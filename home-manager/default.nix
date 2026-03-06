@@ -6,6 +6,7 @@
 }: {
   imports = [
     inputs.stylix.homeModules.stylix
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
 
     ./config
     ./programs
@@ -26,7 +27,7 @@
     homeDirectory = "/home/${username}";
     file = {
       "Pictures/Wallpapers" = {
-        source = ./wallpapers;
+        source = ../assets/wallpapers;
         recursive = true;
       };
     };

@@ -1,0 +1,51 @@
+{pkgs}: {
+  enable = true;
+  autoEnable = true;
+  polarity = "dark";
+
+  cursor = {
+    package = pkgs.capitaine-cursors;
+    name = "capitaine-cursors";
+    size = 32;
+  };
+
+  icons = {
+    enable = true;
+    package = pkgs.papirus-icon-theme;
+    dark = "Papirus-Dark";
+    light = "Papirus-Light";
+  };
+
+  fonts = {
+    serif = {
+      package = pkgs.google-fonts.override {
+        fonts = ["Inter"];
+      };
+      name = "Inter";
+    };
+
+    sansSerif = {
+      package = pkgs.google-fonts.override {
+        fonts = ["Inter"];
+      };
+      name = "Inter";
+    };
+
+    monospace = {
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrainsMono Nerd Font";
+    };
+
+    emoji = {
+      package = pkgs.noto-fonts-color-emoji;
+      name = "Noto Color Emoji";
+    };
+
+    sizes = {
+      applications = 12;
+      desktop = 12;
+      popups = 12;
+      terminal = 14;
+    };
+  };
+}

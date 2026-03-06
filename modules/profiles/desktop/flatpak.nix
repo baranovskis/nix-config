@@ -5,49 +5,9 @@
 }: {
   config = lib.mkIf config.profiles.desktop.enable {
     services.flatpak.enable = true;
-
-    services.flatpak.remotes = [
-      {
-        name = "flathub";
-        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-      }
-    ];
-
-    services.flatpak.update.onActivation = true;
-
-    services.flatpak.update.auto = {
+    xdg.portal = {
       enable = true;
-      onCalendar = "*-*-* 0/6:00:00";
+      xdgOpenUsePortal = true;
     };
-
-    services.flatpak.overrides.global = {
-      Environment = {
-        GTK_THEME = "Adwaita:dark";
-        # Fix nix-ld leaking NIX_LD into the Flatpak sandbox,
-        # causing apps to miss runtime libraries (e.g. libasound.so.2)
-        LD_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu";
-      };
-    };
-
-    services.flatpak.packages = [
-      "io.github.kolunmi.Bazaar"
-      "com.github.tchx84.Flatseal"
-      "io.github.flattool.Warehouse"
-      "com.mattjakeman.ExtensionManager"
-      "org.telegram.desktop"
-      "com.bitwarden.desktop"
-      "com.spotify.Client"
-      "org.gimp.GIMP"
-      "org.inkscape.Inkscape"
-      "org.remmina.Remmina"
-      "io.missioncenter.MissionCenter"
-      "net.lutris.Lutris"
-      "com.heroicgameslauncher.hgl"
-      "com.usebottles.bottles"
-      "com.jeffser.Alpaca"
-      "dev.zed.Zed"
-      #"com.jetbrains.Toolbox"
-      "io.podman_desktop.PodmanDesktop"
-    ];
   };
 }

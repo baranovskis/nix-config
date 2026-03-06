@@ -7,20 +7,13 @@
     # Productivity
     realesrgan-ncnn-vulkan
     eloquent
+    mission-center
 
     # Development
     nodejs_22
     python3
     claude-code
-
-    # CLI tools
-    fd
-    ripgrep
-    dust
-    duf
-    procs
-    sd
-    tealdeer
+    zed-editor
 
     # Fonts
     corefonts
