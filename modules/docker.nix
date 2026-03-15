@@ -8,12 +8,7 @@
   cfg = config.modules.docker;
 
   update-containers = pkgs.writeShellScriptBin "update-containers" ''
-    SUDO=""
-    if [[ $(id -u) -ne 0 ]]; then
-      SUDO="sudo"
-    fi
-
-    images=$($SUDO ${pkgs.docker}/bin/docker ps -a --format="{{.Image}}" | sort -u)
+    images=$(${pkgs.docker}/bin/docker ps -a --format="{{.Image}}" | sort -u)
 
     echo "Found images to update:"
     echo "$images"
@@ -21,7 +16,7 @@
     for image in $images
     do
       echo "Pulling $image..."
-      $SUDO ${pkgs.docker}/bin/docker pull $image
+      ${pkgs.docker}/bin/docker pull $image
     done
 
     echo "Container image updates complete!"
@@ -36,6 +31,10 @@ in {
       docker = {
         enable = true;
         autoPrune.enable = true;
+        rootless = {
+          enable = true;
+          setSocketVariable = true;
+        };
       };
 
       podman = {
@@ -54,7 +53,5 @@ in {
       distrobox
       update-containers
     ];
-
-    users.users.${username}.extraGroups = [ "docker" ];
   };
 }
