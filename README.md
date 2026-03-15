@@ -14,7 +14,8 @@ Steal anything useful!
 - **GNOME** on Wayland with Stylix auto-theming
 - **PipeWire** audio, Bluetooth, CUPS printing
 - **NVIDIA** proprietary drivers (open kernel modules)
-- **VFIO** GPU passthrough with Looking Glass (`kvmfr`)
+- **VFIO** GPU passthrough (Radeon WX 5100) with Looking Glass (`kvmfr`)
+- **Optimized Win10 VM** — VirtIO disk/net, hugepages, io_uring, CPU pinning (P-cores for VM, E-cores for emulator), declarative libvirt definitions
 - **Steam** + Proton-GE, GameMode, MangoHud
 - **Ollama** with CUDA acceleration for local LLMs
 - **Docker**, Podman, Distrobox, libvirt/QEMU/KVM, Sunshine streaming
@@ -45,7 +46,10 @@ nix-config/
 ├── hosts/
 │   └── erebor/               # Desktop workstation
 │       ├── default.nix       # Enables profiles/modules, NVIDIA, VFIO, boot, restic
-│       └── hardware.nix      # Generated hardware config
+│       ├── hardware.nix      # Generated hardware config
+│       └── vms/              # Declarative libvirt VM/network definitions
+│           ├── win10.xml     # Windows 10 VM (VFIO, VirtIO, Looking Glass)
+│           └── default-network.xml  # NAT network with DHCP
 ├── modules/                  # NixOS system modules
 │   ├── default.nix           # Imports core + wm + profiles + all modules
 │   ├── core/                 # Always-on base system
