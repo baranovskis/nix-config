@@ -41,6 +41,8 @@
 
   # VFIO + Looking Glass
   virtualisation.libvirtd.qemu.verbatimConfig = ''
+    user = "${username}"
+    group = "users"
     cgroup_device_acl = [
       "/dev/null", "/dev/full", "/dev/zero",
       "/dev/random", "/dev/urandom",
@@ -107,6 +109,9 @@
     };
 
     kernelParams = [
+      # Hugepages for VM (8192 × 2MB = 16 GiB)
+      "hugepagesz=2M"
+      "hugepages=8192"
       "acpi_rev_override=1"
       "quiet"
       "loglevel=3"
@@ -129,6 +134,8 @@
       "kvmfr.static_size_mb=128"
     ];
 
+    extraModprobeConfig = "options iwlwifi power_save=0";
+
     consoleLogLevel = 0;
     plymouth.enable = true;
 
@@ -150,7 +157,34 @@
 
     # Looking Glass kvmfr
     SUBSYSTEM=="kvmfr", GROUP="kvm", MODE="0660"
+
+    # VFIO device permissions
+    SUBSYSTEM=="vfio", MODE="0660", GROUP="kvm"
   '';
+
+  # Declarative libvirt VM/network definitions
+  systemd.services.libvirt-define = {
+    description = "Define libvirt networks and VMs";
+    after = [ "libvirtd.service" ];
+    requires = [ "libvirtd.service" ];
+    wantedBy = [ "multi-user.target" ];
+    path = [ config.virtualisation.libvirtd.package ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = let
+      vmDir = ./vms;
+    in ''
+      # Define and start default network (idempotent)
+      virsh net-define ${vmDir}/default-network.xml || true
+      virsh net-start default 2>/dev/null || true
+      virsh net-autostart default
+
+      # Define VM
+      virsh define ${vmDir}/win10.xml
+    '';
+  };
 
   services.gvfs.enable = true;
   time.hardwareClockInLocalTime = true;

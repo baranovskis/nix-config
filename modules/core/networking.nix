@@ -6,7 +6,7 @@
   networking = {
     networkmanager = {
       enable = true;
-      wifi.powersave = true;
+      wifi.powersave = false;
     };
     dhcpcd.enable = false;
     useDHCP = lib.mkDefault true;
