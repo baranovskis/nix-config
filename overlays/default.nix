@@ -1,6 +1,7 @@
 { inputs, ... }:
 let
-  linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
+  linuxModifications = final: prev: {
+  };
 
   modifications = final: prev: {
   };
