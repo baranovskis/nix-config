@@ -231,6 +231,11 @@
     </redirdev>
     <watchdog model="itco" action="reset"/>
     <memballoon model="none"/>
+    <filesystem type="mount" accessmode="passthrough">
+      <driver type="virtiofs"/>
+      <source dir="/home/baranovskis/Shared"/>
+      <target dir="host-shared"/>
+    </filesystem>
   </devices>
   <seclabel type="dynamic" model="dac" relabel="yes"/>
   <qemu:commandline>

@@ -181,8 +181,9 @@
       virsh net-start default 2>/dev/null || true
       virsh net-autostart default
 
-      # Define VM
+      # Define VMs
       virsh define ${vmDir}/win10.xml
+      virsh define ${vmDir}/macos.xml
     '';
   };
 

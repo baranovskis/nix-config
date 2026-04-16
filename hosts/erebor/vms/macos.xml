@@ -1,0 +1,188 @@
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+  <name>macos</name>
+  <uuid>a3b7c9d1-4e5f-6a7b-8c9d-0e1f2a3b4c5d</uuid>
+  <title>macOS Sonoma</title>
+  <memory unit="KiB">8388608</memory>
+  <currentMemory unit="KiB">8388608</currentMemory>
+  <memoryBacking>
+    <hugepages/>
+    <source type="memfd"/>
+    <access mode="shared"/>
+  </memoryBacking>
+  <vcpu placement="static">8</vcpu>
+  <iothreads>2</iothreads>
+  <cputune>
+    <vcpupin vcpu="0" cpuset="8"/>
+    <vcpupin vcpu="1" cpuset="9"/>
+    <vcpupin vcpu="2" cpuset="10"/>
+    <vcpupin vcpu="3" cpuset="11"/>
+    <vcpupin vcpu="4" cpuset="16"/>
+    <vcpupin vcpu="5" cpuset="17"/>
+    <vcpupin vcpu="6" cpuset="18"/>
+    <vcpupin vcpu="7" cpuset="19"/>
+    <emulatorpin cpuset="12-15"/>
+    <iothreadpin iothread="1" cpuset="12-13"/>
+    <iothreadpin iothread="2" cpuset="14-15"/>
+  </cputune>
+  <os firmware="efi">
+    <type arch="x86_64" machine="pc-q35-9.2">hvm</type>
+    <firmware>
+      <feature enabled="no" name="enrolled-keys"/>
+      <feature enabled="no" name="secure-boot"/>
+    </firmware>
+    <loader readonly="yes" type="pflash" format="raw">/run/libvirt/nix-ovmf/edk2-x86_64-code.fd</loader>
+    <nvram template="/run/libvirt/nix-ovmf/edk2-i386-vars.fd" templateFormat="raw" format="raw">/var/lib/libvirt/qemu/nvram/macos_VARS.fd</nvram>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+  </features>
+  <!-- CPU handled via qemu:commandline for macOS compatibility -->
+  <clock offset="utc">
+    <timer name="rtc" tickpolicy="catchup"/>
+    <timer name="pit" tickpolicy="delay"/>
+    <timer name="hpet" present="no"/>
+    <timer name="tsc" present="yes" mode="native"/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <pm>
+    <suspend-to-mem enabled="no"/>
+    <suspend-to-disk enabled="no"/>
+  </pm>
+  <devices>
+    <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
+    <!-- OpenCore bootloader -->
+    <disk type="file" device="disk">
+      <driver name="qemu" type="qcow2" cache="writeback" io="threads"/>
+      <source file="/fast/libvirt/OpenCore.qcow2"/>
+      <target dev="sda" bus="sata"/>
+      <boot order="1"/>
+      <address type="drive" controller="0" bus="0" target="0" unit="0"/>
+    </disk>
+    <!-- macOS system disk -->
+    <disk type="file" device="disk">
+      <driver name="qemu" type="qcow2" cache="writeback" io="threads"/>
+      <source file="/fast/libvirt/macos.qcow2"/>
+      <target dev="sdb" bus="sata"/>
+      <boot order="2"/>
+      <address type="drive" controller="0" bus="0" target="0" unit="1"/>
+    </disk>
+    <!-- Recovery installer removed after successful install -->
+    <controller type="usb" index="0" model="qemu-xhci" ports="15">
+      <address type="pci" domain="0x0000" bus="0x02" slot="0x00" function="0x0"/>
+    </controller>
+    <controller type="pci" index="0" model="pcie-root"/>
+    <controller type="pci" index="1" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="1" port="0x10"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0" multifunction="on"/>
+    </controller>
+    <controller type="pci" index="2" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="2" port="0x11"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x1"/>
+    </controller>
+    <controller type="pci" index="3" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="3" port="0x12"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x2"/>
+    </controller>
+    <controller type="pci" index="4" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="4" port="0x13"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x3"/>
+    </controller>
+    <controller type="pci" index="5" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="5" port="0x14"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x4"/>
+    </controller>
+    <controller type="pci" index="6" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="6" port="0x15"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x5"/>
+    </controller>
+    <controller type="pci" index="7" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="7" port="0x16"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x6"/>
+    </controller>
+    <controller type="pci" index="8" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="8" port="0x17"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x7"/>
+    </controller>
+    <controller type="sata" index="0">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1f" function="0x2"/>
+    </controller>
+    <controller type="virtio-serial" index="0">
+      <address type="pci" domain="0x0000" bus="0x03" slot="0x00" function="0x0"/>
+    </controller>
+    <!-- Network: vmxnet3 in bus 0x00 slot for Apple Store compatibility -->
+    <interface type="network">
+      <mac address="52:54:00:c8:a1:3b"/>
+      <source network="default"/>
+      <model type="vmxnet3"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x0"/>
+    </interface>
+    <serial type="pty">
+      <target type="isa-serial" port="0">
+        <model name="isa-serial"/>
+      </target>
+    </serial>
+    <console type="pty">
+      <target type="serial" port="0"/>
+    </console>
+    <channel type="unix">
+      <target type="virtio" name="org.qemu.guest_agent.0"/>
+      <address type="virtio-serial" controller="0" bus="0" port="1"/>
+    </channel>
+    <input type="keyboard" bus="ps2"/>
+    <!-- SPICE display for installation (remove after GPU passthrough works) -->
+    <graphics type="spice" autoport="yes" listen="127.0.0.1">
+      <listen type="address" address="127.0.0.1"/>
+    </graphics>
+    <video>
+      <model type="virtio" heads="1" primary="yes"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x0"/>
+    </video>
+    <sound model="ich9">
+      <audio id="1"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1b" function="0x0"/>
+    </sound>
+    <audio id="1" type="spice"/>
+    <!-- AMD Radeon WX 5100 GPU -->
+    <hostdev mode="subsystem" type="pci" managed="yes">
+      <driver name="vfio"/>
+      <source>
+        <address domain="0x0000" bus="0x06" slot="0x00" function="0x0"/>
+      </source>
+      <address type="pci" domain="0x0000" bus="0x05" slot="0x00" function="0x0" multifunction="on"/>
+    </hostdev>
+    <hostdev mode="subsystem" type="pci" managed="yes">
+      <driver name="vfio"/>
+      <source>
+        <address domain="0x0000" bus="0x06" slot="0x00" function="0x1"/>
+      </source>
+      <address type="pci" domain="0x0000" bus="0x05" slot="0x00" function="0x1"/>
+    </hostdev>
+    <memballoon model="none"/>
+  </devices>
+  <qemu:commandline>
+    <qemu:arg value="-device"/>
+    <qemu:arg value="isa-applesmc,osk=ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"/>
+    <qemu:arg value="-smbios"/>
+    <qemu:arg value="type=2"/>
+    <qemu:arg value="-usb"/>
+    <qemu:arg value="-device"/>
+    <qemu:arg value="usb-tablet"/>
+    <qemu:arg value="-device"/>
+    <qemu:arg value="usb-kbd"/>
+    <qemu:arg value="-cpu"/>
+    <qemu:arg value="Skylake-Client,-hle,-rtm,kvm=on,vendor=GenuineIntel,+invtsc,vmware-cpuid-freq=on,+ssse3,+sse4.2,+popcnt,+avx,+avx2,+aes,+xsave,+xsaveopt"/>
+    <qemu:arg value="-smp"/>
+    <qemu:arg value="8,cores=4,threads=2,sockets=1"/>
+  </qemu:commandline>
+</domain>

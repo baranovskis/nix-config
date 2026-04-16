@@ -18,6 +18,7 @@ in {
         package = pkgs.stable.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
+        vhostUserPackages = [ pkgs.virtiofsd ];
       };
     };
 
@@ -29,6 +30,7 @@ in {
       virt-viewer
       stable.win-virtio
       stable.win-spice
+      virtiofsd
     ];
 
     users.users.${username}.extraGroups = [ "libvirtd" "kvm" ];

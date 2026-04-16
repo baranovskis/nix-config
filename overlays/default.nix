@@ -20,6 +20,8 @@ let
     };
   };
 
+  claude-code-overlay = inputs.claude-code.overlays.default;
+
 in
 {
   default =
@@ -28,5 +30,6 @@ in
     (modifications final prev)
     // (linuxModifications final prev)
     // (stable-packages final prev)
-    // (unstable-packages final prev);
+    // (unstable-packages final prev)
+    // (claude-code-overlay final prev);
 }
